@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/refrigerator"
+        android:enabled="true"
+        android:icon="@drawable/ic_bottom_refrigerator"
+        android:title="나의 냉장고"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/recipe"
+        android:enabled="true"
+        android:icon="@drawable/ic_bottom_recipe"
+        android:title="레시피"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/setting"
+        android:enabled="true"
+        android:icon="@drawable/ic_bottom_setting"
+        android:title="설정"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/camera"
+        android:enabled="true"
+        android:icon="@drawable/ic_bottom_camera"
+        android:title="카메라"
+        app:showAsAction="always" />
+</menu>
