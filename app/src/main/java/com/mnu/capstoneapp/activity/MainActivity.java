@@ -15,7 +15,6 @@ import com.mnu.capstoneapp.fragement.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    String s;
     RefrigeratorFragment refrigeratorFragment;
     SettingFragment settingFragment;
     RecipeFragment recipeFragment;
