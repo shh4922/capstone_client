@@ -26,6 +26,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -37,17 +38,23 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
+import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.AutoFitTextureView;
 import com.mnu.capstoneapp.R;
+import com.mnu.capstoneapp.Response.ImgResponse;
+import com.mnu.capstoneapp.Response.LoginResponse;
+import com.mnu.capstoneapp.activity.MainActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,11 +62,20 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class Camera2BasicFragment extends Fragment
@@ -904,19 +920,41 @@ public class Camera2BasicFragment extends Fragment
      * 이미지 업로드 함수
      */
     private static class ImageUploader implements Runnable {
-
-        // 이미지 생성
-        private final Image mImage;
-
-        ImageUploader(Image image) {
-            mImage = image;
+        private Image mImage ;
+        ImageUploader(Image img) {
+            mImage = img;
         }
-
-
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public void run() {}
+        public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
 
+            Base64.Encoder encoder = Base64.getEncoder();
+            encoder.encode(buffer.get(bytes));
+
+            System.out.println(encoder.encode(buffer.get(bytes)));
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .baseUrl("https://dapi.kakao.com/")
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build();
+//
+//            APIservice ImasendService = retrofit.create(APIservice.class);
+//
+//
+//            ImasendService.getImgResponse(encoder.encode(buffer.get(bytes))).enqueue(new Callback<ImgResponse>() {
+//                @Override
+//                public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
+//
+//                }
+//                @Override
+//                public void onFailure(Call<ImgResponse> call, Throwable t) {
+//
+//                }
+//            });
         }
+    }
 
 
 
