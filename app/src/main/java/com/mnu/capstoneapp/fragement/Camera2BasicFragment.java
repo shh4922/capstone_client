@@ -38,7 +38,6 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,12 +48,20 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.HttpClient;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.ResponseHandler;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpPost;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.entity.StringEntity;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.BasicResponseHandler;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClientBuilder;
+
 import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.AutoFitTextureView;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
-import com.mnu.capstoneapp.Response.LoginResponse;
-import com.mnu.capstoneapp.activity.MainActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,12 +69,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -250,7 +254,7 @@ public class Camera2BasicFragment extends Fragment
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new ImageUploader(reader.acquireNextImage() ));
+            mBackgroundHandler.post(new ImageUploader(reader.acquireNextImage()));
         }
 
     };
@@ -389,7 +393,7 @@ public class Camera2BasicFragment extends Fragment
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
      */
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-            int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
 
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Size> bigEnough = new ArrayList<>();
@@ -401,7 +405,7 @@ public class Camera2BasicFragment extends Fragment
             if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
                     option.getHeight() == option.getWidth() * h / w) {
                 if (option.getWidth() >= textureViewWidth &&
-                    option.getHeight() >= textureViewHeight) {
+                        option.getHeight() >= textureViewHeight) {
                     bigEnough.add(option);
                 } else {
                     notBigEnough.add(option);
@@ -914,171 +918,173 @@ public class Camera2BasicFragment extends Fragment
     }
 
 
-
-
     /**
      * 이미지 업로드 함수
      */
     private static class ImageUploader implements Runnable {
-        private Image mImage ;
+        private Image mImage;
+
         ImageUploader(Image img) {
             mImage = img;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void run() {
+            String out;
             ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
+            out = new String(Base64.encodeBase64(bytes));
+            //buffer.get(bytes);
+            Log.e("test2", "실행성공");
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://dapi.kakao.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-            Base64.Encoder encoder = Base64.getEncoder();
-            encoder.encode(buffer.get(bytes));
+            APIservice impendService = retrofit.create(APIservice.class);
+            Log.e("성공1", "성공1");
+            impendService.getImgResponse(out);
+            impendService.getImgResponse(out).enqueue(new Callback<ImgResponse>() {
+                @Override
+                public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
+                    Log.e("개 대박", "대발");
+                    response.body().getResult();
+                }
 
-            System.out.println(encoder.encode(buffer.get(bytes)));
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .baseUrl("https://dapi.kakao.com/")
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .build();
-//
-//            APIservice ImasendService = retrofit.create(APIservice.class);
-//
-//
-//            ImasendService.getImgResponse(encoder.encode(buffer.get(bytes))).enqueue(new Callback<ImgResponse>() {
-//                @Override
-//                public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
-//
-//                }
-//                @Override
-//                public void onFailure(Call<ImgResponse> call, Throwable t) {
-//
-//                }
-//            });
+                @Override
+                public void onFailure(Call<ImgResponse> call, Throwable t) {
+                    Log.e("개 시발", "시발");
+
+                }
+            });
+
         }
     }
 
-
-
-    /**
-     * Saves a JPEG {@link Image} into the specified {@link File}.
-     */
-    private static class ImageSaver implements Runnable {
-
         /**
-         * The JPEG image
+         * Saves a JPEG {@link Image} into the specified {@link File}.
          */
-        private final Image mImage;
-        /**
-         * The file we save the image into.
-         */
-        private final File mFile;
+        private static class ImageSaver implements Runnable {
 
-        ImageSaver(Image image, File file) {
-            mImage = image;
-            mFile = file;
-        }
+            /**
+             * The JPEG image
+             */
+            private final Image mImage;
+            /**
+             * The file we save the image into.
+             */
+            private final File mFile;
 
-        @Override
-        public void run() {
-            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
+            ImageSaver(Image image, File file) {
+                mImage = image;
+                mFile = file;
+            }
 
-            FileOutputStream output = null;
-            try {
-                output = new FileOutputStream(mFile);
-                output.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                mImage.close();
-                if (null != output) {
-                    try {
-                        output.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            @Override
+            public void run() {
+
+                ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+                byte[] bytes = new byte[buffer.remaining()];
+                buffer.get(bytes);
+
+                FileOutputStream output = null;
+                try {
+                    output = new FileOutputStream(mFile);
+                    output.write(bytes);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    mImage.close();
+                    if (null != output) {
+                        try {
+                            output.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
+
         }
 
-    }
+        /**
+         * Compares two {@code Size}s based on their areas.
+         */
+        static class CompareSizesByArea implements Comparator<Size> {
 
-    /**
-     * Compares two {@code Size}s based on their areas.
-     */
-    static class CompareSizesByArea implements Comparator<Size> {
+            @Override
+            public int compare(Size lhs, Size rhs) {
+                // We cast here to ensure the multiplications won't overflow
+                return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                        (long) rhs.getWidth() * rhs.getHeight());
+            }
 
-        @Override
-        public int compare(Size lhs, Size rhs) {
-            // We cast here to ensure the multiplications won't overflow
-            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                    (long) rhs.getWidth() * rhs.getHeight());
         }
 
-    }
+        /**
+         * Shows an error message dialog.
+         */
+        public static class ErrorDialog extends DialogFragment {
 
-    /**
-     * Shows an error message dialog.
-     */
-    public static class ErrorDialog extends DialogFragment {
+            private static final String ARG_MESSAGE = "message";
 
-        private static final String ARG_MESSAGE = "message";
+            public static ErrorDialog newInstance(String message) {
+                ErrorDialog dialog = new ErrorDialog();
+                Bundle args = new Bundle();
+                args.putString(ARG_MESSAGE, message);
+                dialog.setArguments(args);
+                return dialog;
+            }
 
-        public static ErrorDialog newInstance(String message) {
-            ErrorDialog dialog = new ErrorDialog();
-            Bundle args = new Bundle();
-            args.putString(ARG_MESSAGE, message);
-            dialog.setArguments(args);
-            return dialog;
+            @NonNull
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                final Activity activity = getActivity();
+                return new AlertDialog.Builder(activity)
+                        .setMessage(getArguments().getString(ARG_MESSAGE))
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                activity.finish();
+                            }
+                        })
+                        .create();
+            }
+
         }
 
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Activity activity = getActivity();
-            return new AlertDialog.Builder(activity)
-                    .setMessage(getArguments().getString(ARG_MESSAGE))
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
-                    .create();
-        }
+        /**
+         * Shows OK/Cancel confirmation dialog about camera permission.
+         */
+        public static class ConfirmationDialog extends DialogFragment {
 
-    }
-
-    /**
-     * Shows OK/Cancel confirmation dialog about camera permission.
-     */
-    public static class ConfirmationDialog extends DialogFragment {
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Fragment parent = getParentFragment();
-            return new AlertDialog.Builder(getActivity())
-                    .setMessage(R.string.request_permission)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                    REQUEST_CAMERA_PERMISSION);
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Activity activity = parent.getActivity();
-                                    if (activity != null) {
-                                        activity.finish();
+            @NonNull
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                final Fragment parent = getParentFragment();
+                return new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.request_permission)
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                        REQUEST_CAMERA_PERMISSION);
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Activity activity = parent.getActivity();
+                                        if (activity != null) {
+                                            activity.finish();
+                                        }
                                     }
-                                }
-                            })
-                    .create();
+                                })
+                        .create();
+            }
         }
     }
 
-}
+
