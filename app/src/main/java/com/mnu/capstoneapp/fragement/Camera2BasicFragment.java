@@ -948,14 +948,22 @@ public class Camera2BasicFragment extends Fragment
             impendService.getImgResponse(out).enqueue(new Callback<ImgResponse>() {
                 @Override
                 public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
-                    Log.e("개 대박", "대발");
-                    response.body().getResult();
+
+                    String totalresult = "";
+                    ImgResponse resource = response.body();
+                    List<ImgResponse.Result> resultList = resource.getResult();
+
+
+                    for (ImgResponse.Result result : resultList) {
+                        totalresult += result.getRecognition_words() + "\n";
+                    }
+
+                    Log.e("성공",totalresult);
                 }
 
                 @Override
                 public void onFailure(Call<ImgResponse> call, Throwable t) {
-                    Log.e("개 시발", "시발");
-
+                    call.cancel();
                 }
             });
 
