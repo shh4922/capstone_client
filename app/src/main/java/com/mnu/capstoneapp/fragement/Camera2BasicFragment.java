@@ -947,12 +947,14 @@ public class Camera2BasicFragment extends Fragment
                 @Override
                 public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
                     String totalresult = "";
+
                     ImgResponse resource = response.body();
 
-                    List<ImgResponse.Result> resultList = resource.getResult();
+                    List<ImgResponse.Result> resultList =resource.result;
+
 
                     for (ImgResponse.Result result : resultList) {
-                        totalresult += result.getRecognition_words() + "\n";
+                        totalresult += result.recognition_words;
                     }
                     Log.e("성공",totalresult);
                 }
