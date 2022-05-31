@@ -936,34 +936,32 @@ public class Camera2BasicFragment extends Fragment
             byte[] bytes = new byte[buffer.remaining()];
             out = new String(Base64.encodeBase64(bytes));
             //buffer.get(bytes);
-            Log.e("test2", "실행성공");
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://dapi.kakao.com/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
             APIservice impendService = retrofit.create(APIservice.class);
-            Log.e("성공1", "성공1");
             impendService.getImgResponse(out);
             impendService.getImgResponse(out).enqueue(new Callback<ImgResponse>() {
                 @Override
                 public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
-
                     String totalresult = "";
                     ImgResponse resource = response.body();
-                    List<ImgResponse.Result> resultList = resource.getResult();
 
+                    List<ImgResponse.Result> resultList = resource.getResult();
 
                     for (ImgResponse.Result result : resultList) {
                         totalresult += result.getRecognition_words() + "\n";
                     }
-
                     Log.e("성공",totalresult);
                 }
-
                 @Override
                 public void onFailure(Call<ImgResponse> call, Throwable t) {
+                    System.out.println(t);
+                    Log.e("서버통신실패","서버통신실패");
                     call.cancel();
+
                 }
             });
 

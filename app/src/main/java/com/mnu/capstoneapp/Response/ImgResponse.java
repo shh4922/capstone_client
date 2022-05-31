@@ -10,7 +10,15 @@ import javax.xml.transform.Result;
 
 public class ImgResponse {
     @SerializedName("result")
-    private List<Result> result= new ArrayList();
+    private List<Result> result= null;
+
+    public List<Result> getResult() {
+        return result;
+    }
+
+    public void setResult(List<Result> result) {
+        this.result = result;
+    }
 
 
     public class Result{
@@ -35,15 +43,12 @@ public class ImgResponse {
         public void setRecognition_words(String[] recognition_words) {
             this.recognition_words = recognition_words;
         }
+
+
     }
 
-    public List<Result> getResult() {
-        return result;
-    }
 
-    public void setResult(List<Result> result) {
-        this.result = result;
-    }
+
 }
 
 
