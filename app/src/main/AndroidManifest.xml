@@ -45,12 +45,6 @@
 
         </activity>
 
-        <activity
-            android:name=".activity.CameraActivity"
-            android:exported="true">
-
-        </activity>
-
 
     </application>
 

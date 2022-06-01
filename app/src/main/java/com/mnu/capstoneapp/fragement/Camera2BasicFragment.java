@@ -970,129 +970,127 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+    /**
+     * Saves a JPEG {@link Image} into the specified {@link File}.
+     */
+    private static class ImageSaver implements Runnable {
+
         /**
-         * Saves a JPEG {@link Image} into the specified {@link File}.
+         * The JPEG image
          */
-        private static class ImageSaver implements Runnable {
+        private final Image mImage;
+        /**
+         * The file we save the image into.
+         */
+        private final File mFile;
 
-            /**
-             * The JPEG image
-             */
-            private final Image mImage;
-            /**
-             * The file we save the image into.
-             */
-            private final File mFile;
+        ImageSaver(Image image, File file) {
+            mImage = image;
+            mFile = file;
+        }
 
-            ImageSaver(Image image, File file) {
-                mImage = image;
-                mFile = file;
-            }
+        @Override
+        public void run() {
 
-            @Override
-            public void run() {
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
 
-                ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-                byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);
-
-                FileOutputStream output = null;
-                try {
-                    output = new FileOutputStream(mFile);
-                    output.write(bytes);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    mImage.close();
-                    if (null != output) {
-                        try {
-                            output.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
             }
-
         }
 
-        /**
-         * Compares two {@code Size}s based on their areas.
-         */
-        static class CompareSizesByArea implements Comparator<Size> {
-
-            @Override
-            public int compare(Size lhs, Size rhs) {
-                // We cast here to ensure the multiplications won't overflow
-                return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
-                        (long) rhs.getWidth() * rhs.getHeight());
-            }
-
-        }
-
-        /**
-         * Shows an error message dialog.
-         */
-        public static class ErrorDialog extends DialogFragment {
-
-            private static final String ARG_MESSAGE = "message";
-
-            public static ErrorDialog newInstance(String message) {
-                ErrorDialog dialog = new ErrorDialog();
-                Bundle args = new Bundle();
-                args.putString(ARG_MESSAGE, message);
-                dialog.setArguments(args);
-                return dialog;
-            }
-
-            @NonNull
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                final Activity activity = getActivity();
-                return new AlertDialog.Builder(activity)
-                        .setMessage(getArguments().getString(ARG_MESSAGE))
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                activity.finish();
-                            }
-                        })
-                        .create();
-            }
-
-        }
-
-        /**
-         * Shows OK/Cancel confirmation dialog about camera permission.
-         */
-        public static class ConfirmationDialog extends DialogFragment {
-
-            @NonNull
-            @Override
-            public Dialog onCreateDialog(Bundle savedInstanceState) {
-                final Fragment parent = getParentFragment();
-                return new AlertDialog.Builder(getActivity())
-                        .setMessage(R.string.request_permission)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
-                                        REQUEST_CAMERA_PERMISSION);
-                            }
-                        })
-                        .setNegativeButton(android.R.string.cancel,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Activity activity = parent.getActivity();
-                                        if (activity != null) {
-                                            activity.finish();
-                                        }
-                                    }
-                                })
-                        .create();
-            }
-        }
     }
 
+    /**
+     * Compares two {@code Size}s based on their areas.
+     */
+    static class CompareSizesByArea implements Comparator<Size> {
 
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            // We cast here to ensure the multiplications won't overflow
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() -
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+
+    }
+
+    /**
+     * Shows an error message dialog.
+     */
+    public static class ErrorDialog extends DialogFragment {
+
+        private static final String ARG_MESSAGE = "message";
+
+        public static ErrorDialog newInstance(String message) {
+            ErrorDialog dialog = new ErrorDialog();
+            Bundle args = new Bundle();
+            args.putString(ARG_MESSAGE, message);
+            dialog.setArguments(args);
+            return dialog;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Activity activity = getActivity();
+            return new AlertDialog.Builder(activity)
+                    .setMessage(getArguments().getString(ARG_MESSAGE))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.finish();
+                        }
+                    })
+                    .create();
+        }
+
+    }
+
+    /**
+     * Shows OK/Cancel confirmation dialog about camera permission.
+     */
+    public static class ConfirmationDialog extends DialogFragment {
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Fragment parent = getParentFragment();
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.request_permission)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            parent.requestPermissions(new String[]{Manifest.permission.CAMERA},
+                                    REQUEST_CAMERA_PERMISSION);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Activity activity = parent.getActivity();
+                                    if (activity != null) {
+                                        activity.finish();
+                                    }
+                                }
+                            })
+                    .create();
+        }
+    }
+}
