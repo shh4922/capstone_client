@@ -9,11 +9,12 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.22604166666666667" />
-        <entry key="app/src/main/res/layout/fragment_camera2_basic.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_camera2_basic.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_refrigerator.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.28229166666666666" />
+        <entry key="app/src/main/res/xml/file_paths.xml" value="0.28125" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.13125" />
       </map>
     </option>

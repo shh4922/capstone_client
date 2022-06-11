@@ -45,11 +45,6 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("10005","5??");
                     moveActivity(SignupActivity.class);
 
-                case R.id.btn_sighup:
-                    Log.e("100001","1??");
-                    moveActivity(SignupActivity.class);
-                    break;
-
             }
         }
     };

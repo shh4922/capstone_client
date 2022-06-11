@@ -10,8 +10,7 @@ import javax.xml.transform.Result;
 
 public class ImgResponse {
     @SerializedName("result")
-    public List<Result> result= null;
-
+    public List<Result> result = null;
 
 
     public class Result{

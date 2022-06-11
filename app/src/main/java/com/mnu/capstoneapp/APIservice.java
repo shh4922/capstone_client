@@ -1,20 +1,27 @@
 package com.mnu.capstoneapp;
 
+import android.media.Image;
+
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.BinaryCodec;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface APIservice {
 
@@ -30,10 +37,7 @@ public interface APIservice {
 
 
     //이미지 데이터 전송
-
-
-
-    @Headers({"Authorization: KakaoAK ${9a1ca247a8a58968ceef53e69d4187ef}"})
-    @POST("v2/vision/text/ocr/")
-    Call<ImgResponse> getImgResponse(@Body String str);
+    @Multipart
+    @POST("v2/vision/text/ocr")
+    Call<ImgResponse> getImgResponse(@Header("Authorization")String appkey,@Part MultipartBody.Part image);
 }

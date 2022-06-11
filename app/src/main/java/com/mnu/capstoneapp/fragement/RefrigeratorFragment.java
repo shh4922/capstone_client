@@ -21,4 +21,7 @@ public class RefrigeratorFragment extends Fragment {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_refrigerator,container,false);
         return viewGroup;
     }
+
+
+
 }

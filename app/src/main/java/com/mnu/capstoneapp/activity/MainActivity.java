@@ -8,7 +8,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.mnu.capstoneapp.R;
-import com.mnu.capstoneapp.fragement.Camera2BasicFragment;
+import com.mnu.capstoneapp.fragement.CameraFragement;
 import com.mnu.capstoneapp.fragement.RecipeFragment;
 import com.mnu.capstoneapp.fragement.RefrigeratorFragment;
 import com.mnu.capstoneapp.fragement.SettingFragment;
@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     RefrigeratorFragment refrigeratorFragment;
     SettingFragment settingFragment;
     RecipeFragment recipeFragment;
-    Camera2BasicFragment camera2BasicFragment;
+    CameraFragement cameraFragement;
     NavigationBarView navigationBarView;
 
     @Override
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         refrigeratorFragment = new RefrigeratorFragment();
         recipeFragment = new RecipeFragment();
         settingFragment = new SettingFragment();
-        camera2BasicFragment = new Camera2BasicFragment();
+        cameraFragement = new CameraFragement();
         navigationBarView = findViewById(R.id.bottom_menubar);
 
 
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,settingFragment).commit();
                         return true;
                     case R.id.camera:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,camera2BasicFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,cameraFragement).commit();
                         return true;
                 }
                 return false;
