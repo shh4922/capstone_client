@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -33,8 +34,12 @@ import com.mnu.capstoneapp.Response.ImgResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,7 +57,6 @@ public class CameraFragement extends Fragment {
     final private static String TAG = "GILBOMI";
     Button btn_photo;
     ImageView iv_photo;
-    String KakaoRestApiKey = "9a1ca247a8a58968ceef53e69d4187ef";
     final static int TAKE_PICTURE = 1;
 
     String mCurrentPhotoPath;
@@ -60,6 +64,7 @@ public class CameraFragement extends Fragment {
 
 
     public CameraFragement() {
+
     }
 
 
@@ -69,12 +74,12 @@ public class CameraFragement extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-
         iv_photo = view.findViewById(R.id.iv_photo);
         btn_photo = view.findViewById(R.id.btn_photo);
 
@@ -105,18 +110,6 @@ public class CameraFragement extends Fragment {
         return view;
     }
 
-
-//    @Override
-//    public void onClick(View view){
-//        switch (view.getId()){
-//            case R.id.btn_photo:
-//                dispatchTakePictureIntent();
-////                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-////                        startActivityForResult(cameraIntent, TAKE_PICTURE);
-//                break;
-//        }
-//    }
-
     // 권한 요청  onRequestPermissionsResult
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -143,6 +136,7 @@ public class CameraFragement extends Fragment {
                         }
                     }
                     break;
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -164,6 +158,7 @@ public class CameraFragement extends Fragment {
         return image;
     }
 
+
     // 카메라 인텐트 실행하는 부분
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -181,6 +176,9 @@ public class CameraFragement extends Fragment {
             }
         }
     }
+
+
+    //카카오로 이미지 전송하는 함수 (찍었던 사진을 받아와야함)
     public void sendImgKaKaO(File photoFile){
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -188,37 +186,28 @@ public class CameraFragement extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        //앱키 설정
         String appkey = "KakaoAK 9a1ca247a8a58968ceef53e69d4187ef";
 
+        //이미지는 png든 jpng든 모든파일이 가능하도록 설정
         RequestBody requestimg = RequestBody.create(MediaType.parse("image/*"), photoFile);
-        System.out.println(requestimg);
+        //사진의 이름과, 찍은 사진을  body에 묶음
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", photoFile.getName(), requestimg);
-        APIservice imgservice = retrofit.create(APIservice.class);
 
+        //APIservice 생성
+        APIservice imgservice = retrofit.create(APIservice.class);
+        //앱키와 body를 넣어서 통신
         imgservice.getImgResponse(appkey,body).enqueue(new Callback<ImgResponse>() {
             @Override
             public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
+
+                //통신에 성공하였을떄 응답이 온것을 imgResponse에 넣어둠
                 ImgResponse imgResponse = response.body();
+
+                //응답이 제대로 왔을경우
                 if (response.isSuccessful()){
-                    Log.e("성공","성공");
-                    System.out.println(response.code());
-                    String total = "";
-                    List<int[]> tatalbox = null;
                     List<ImgResponse.Result> resultList = imgResponse.result;
-
-                    for (ImgResponse.Result result : resultList){
-                        total+=result.recognition_words;
-                        tatalbox= result.boxes;
-                        System.out.println(Arrays.toString(tatalbox.get(0)));
-                        System.out.println(Arrays.deepToString(result.recognition_words));
-
-                    }
-//                    for(int i=0;i<tatalbox.size();i++){
-//                        System.out.println(Arrays.toString(tatalbox.get(i)));
-//                    }
-                    Log.e("대박",total);
-
-
+                    getOneLine(resultList);
                 }else {
                     Log.e("실패","실패");
                     System.out.println(response.code());
@@ -227,9 +216,69 @@ public class CameraFragement extends Fragment {
 
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
-                Log.e("실패2","실패2");
+                //통신에 실패할경우
                 Log.e("tag","실패",t);
             }
         });
+    }
+
+
+    //응답이 왔을때의 text를 한줄로 만들기위해 만든 함수
+    public void getOneLine(List<ImgResponse.Result> resultList){
+        //x,y좌표를 담고있을 배열
+        int[] arry1;
+        int[] arry2;
+
+        //배열에서 가져온 y값을 담을 변수
+        int y1=0,y2=0;
+        int y1_,y2_;
+
+        // 한 줄의 라인의 조건을 판별해줄 count
+        int count=0;
+        int key =0;
+        //전체 텍스트 한줄을 담을 String
+        String onelinestr="";
+
+        //전체 좌표box를 담을 List<int[]>
+        List<int[]> tatalbox = null;
+
+        //json으로 보내기 위한 linkedMap
+        Map<Integer,String> request =new LinkedHashMap<Integer,String>();
+
+        for (ImgResponse.Result result : resultList){
+            tatalbox= result.boxes;
+            arry1=tatalbox.get(0);
+            arry2=tatalbox.get(2);
+
+            if(count == 0){
+                onelinestr+=Arrays.deepToString(result.recognition_words);
+                y1=arry1[1];
+                y2=arry2[1];
+                count++;
+
+            }else {
+                y1_=arry1[1];
+                y2_=arry2[1];
+                if( (y1_>= y1-50 && y1_<=y1+50) && (y2_>=y2-50 && y2_<=y2+50) ) {
+                    onelinestr += Arrays.deepToString(result.recognition_words);
+                    count++;
+
+                }else{
+                    request.put(key,onelinestr);
+                    key++;
+                    System.out.println(onelinestr);
+                    Log.e("줄바꿈 & 추가완료","줄바꿈 & 추가완료");
+                    onelinestr="";
+                    onelinestr += Arrays.deepToString(result.recognition_words);
+                    count=0;
+                }
+                y1=y1_;
+                y2=y2_;
+            }
+        }
+        Log.e("끝","해쉽맵 반복으로 출력");
+        for(int i=0;i<request.size();i++){
+            Log.e("결과",(request.get(i)));
+        }
     }
 }

@@ -46,4 +46,6 @@ dependencies {
     //jackson
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 
+    //리사이클러뷰 종속추가
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
 }

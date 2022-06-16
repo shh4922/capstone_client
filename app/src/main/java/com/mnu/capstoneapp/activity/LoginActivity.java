@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.btn_sighup).setOnClickListener(onClickListener);
     }
 
+
+    //로그인페이지 버튼 이벤트
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -41,19 +43,20 @@ public class LoginActivity extends AppCompatActivity {
                 case R.id.btn_login:
                     login();
                     break;
-                case R.id.btn_signup:
-                    Log.e("10005","5??");
+                case R.id.btn_sighup:
                     moveActivity(SignupActivity.class);
 
             }
         }
     };
 
+    //엑티비티 화면전환
     private void moveActivity(Class c){
         Intent intent = new Intent(this,c);
         startActivity(intent);
     }
 
+    //알림메시지 함수
     private void ShowDialog(String msg){
         new AlertDialog.Builder(this)
                 .setTitle("알림!")
@@ -64,27 +67,36 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+    //로그인 기능
     private void login(){
+        //입력된 문자열 가져옴
         String userid= ((EditText)findViewById(R.id.et_userid)).getText().toString();
         String password= ((EditText)findViewById(R.id.et_password)).getText().toString();
 
+        //문자열 json 파일로 압축
         Map request =new LinkedHashMap();
         request.put("userid",userid);
         request.put("password",password);
 
         //studio 가상머신 localhost >> 10.0.2.2
 
+        //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://10.0.2.2:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        //통신을 위한 APIservice 생성
         APIservice loginService = retrofit.create(APIservice.class);
+        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         loginService.getLoginResponse(request);
+
+        //통신
         loginService.getLoginResponse(request).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 switch (response.body().getCode()){
+                    //성공
                     case "0000":
                         moveActivity(MainActivity.class);
                         ShowDialog(response.body().getMsg());
@@ -104,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                //실패
                 ShowDialog("통신에 실패했습니다.");
             }
         });
