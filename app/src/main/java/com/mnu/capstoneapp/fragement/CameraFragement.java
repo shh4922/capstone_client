@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
+import com.mnu.capstoneapp.Response.TextDataResponse;
+import com.mnu.capstoneapp.activity.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -224,6 +226,7 @@ public class CameraFragement extends Fragment {
 
 
     //응답이 왔을때의 text를 한줄로 만들기위해 만든 함수
+    //귀찮아서 그냥 라인띄어쓰기하는곳에서 바로 json으로 묶어서 서버로 보내게 하겠음
     public void getOneLine(List<ImgResponse.Result> resultList){
         //x,y좌표를 담고있을 배열
         int[] arry1;
@@ -277,8 +280,44 @@ public class CameraFragement extends Fragment {
             }
         }
         Log.e("끝","해쉽맵 반복으로 출력");
+
+        // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
+
+        Map texts =new LinkedHashMap();
+
         for(int i=0;i<request.size();i++){
             Log.e("결과",(request.get(i)));
+            texts.put(i,request.get(i));
         }
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://10.0.2.2:8000")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        //통신을 위한 APIservice 생성
+        APIservice textsend = retrofit.create(APIservice.class);
+        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
+        textsend.getResultTexts(texts);
+
+        textsend.getResultTexts(texts).enqueue(new Callback<TextDataResponse>() {
+            @Override
+            public void onResponse(Call<TextDataResponse> call, Response<TextDataResponse> response) {
+                switch (response.body().getCode()){
+                    //성공
+                    case "0000":
+                        Log.e("메시지","서버로 잘 전달되고 다시 응답이 왔음");
+                        break;
+
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + response.body().getCode());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TextDataResponse> call, Throwable t) {
+                Log.e("메시지","통신자체 실패 앱에서 뭔가를 잘못한거.");
+            }
+        });
     }
 }

@@ -6,6 +6,7 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.BinaryCodec;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
+import com.mnu.capstoneapp.Response.TextDataResponse;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +36,9 @@ public interface APIservice {
     Call<LoginResponse> getSignupResponse(@Body Map request);
 
 
+    //텍스트결과 보내기
+    @POST("/textrunning")
+    Call<TextDataResponse> getResultTexts(@Body Map request);
 
     //이미지 데이터 전송
     @Multipart
