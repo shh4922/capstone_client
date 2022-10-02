@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="intro">#4DA4FA</color>
+    <color name="rc_refigerator_item">#93BCE4</color>
+    <color name="rc_refigerator_background">#70B6DC</color>
+    <color name="btn">#86CD47</color>
+    <color name="DefaultBackground">#8FC8E6</color>
 </resources>

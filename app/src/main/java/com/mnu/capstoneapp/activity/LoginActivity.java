@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000")
+                .baseUrl("http://192.168.0.252:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -117,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 //실패
+                Log.e("로그","통신실패",t);
                 ShowDialog("통신에 실패했습니다.");
             }
         });

@@ -42,9 +42,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -211,7 +213,6 @@ public class CameraFragement extends Fragment {
                     List<ImgResponse.Result> resultList = imgResponse.result;
                     getOneLine(resultList);
                 }else {
-                    Log.e("실패","실패");
                     System.out.println(response.code());
                 }
             }
@@ -219,7 +220,7 @@ public class CameraFragement extends Fragment {
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
                 //통신에 실패할경우
-                Log.e("tag","실패",t);
+                Log.e("로그","카카오 통신 실패",t);
             }
         });
     }
@@ -231,17 +232,14 @@ public class CameraFragement extends Fragment {
         //x,y좌표를 담고있을 배열
         int[] arry1;
         int[] arry2;
-
         //배열에서 가져온 y값을 담을 변수
         int y1=0,y2=0;
         int y1_,y2_;
-
         // 한 줄의 라인의 조건을 판별해줄 count
         int count=0;
         int key =0;
         //전체 텍스트 한줄을 담을 String
         String onelinestr="";
-
         //전체 좌표box를 담을 List<int[]>
         List<int[]> tatalbox = null;
 
@@ -270,7 +268,6 @@ public class CameraFragement extends Fragment {
                     request.put(key,onelinestr);
                     key++;
                     System.out.println(onelinestr);
-                    Log.e("줄바꿈 & 추가완료","줄바꿈 & 추가완료");
                     onelinestr="";
                     onelinestr += Arrays.deepToString(result.recognition_words);
                     count=0;
@@ -279,10 +276,8 @@ public class CameraFragement extends Fragment {
                 y2=y2_;
             }
         }
-        Log.e("끝","해쉽맵 반복으로 출력");
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
-
         Map texts =new LinkedHashMap();
 
         for(int i=0;i<request.size();i++){
@@ -291,14 +286,19 @@ public class CameraFragement extends Fragment {
         }
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000")
+                .baseUrl("http://192.168.0.252:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         //통신을 위한 APIservice 생성
         APIservice textsend = retrofit.create(APIservice.class);
-        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
+        //        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         textsend.getResultTexts(texts);
+
+        /***
+         * 띄어쓰기해서 묶은 데이터 확인하는 Log
+         */
+        Log.d("로그",texts.toString());
 
         textsend.getResultTexts(texts).enqueue(new Callback<TextDataResponse>() {
             @Override
@@ -306,17 +306,19 @@ public class CameraFragement extends Fragment {
                 switch (response.body().getCode()){
                     //성공
                     case "0000":
-                        Log.e("메시지","서버로 잘 전달되고 다시 응답이 왔음");
+                        Log.d("로그","0000");
                         break;
-
+                    case "0001":
+                        Log.d("로그","0001");
+                        break;
                     default:
                         throw new IllegalStateException("Unexpected value: " + response.body().getCode());
+
                 }
             }
-
             @Override
             public void onFailure(Call<TextDataResponse> call, Throwable t) {
-                Log.e("메시지","통신자체 실패 앱에서 뭔가를 잘못한거.");
+                Log.e("로그","서버에 text데이터 전송&응답 실패",t);
             }
         });
     }

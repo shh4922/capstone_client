@@ -2,20 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mnu.capstoneapp">
-
-    <!--인터넷 연결을 위한 권한-->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--핸드폰 카메라를 위한 권한-->
+    <!-- 인터넷 연결을 위한 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 핸드폰 카메라를 위한 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <!--핸드폰 카메라를 위한 권한 ver.2-->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 핸드폰 카메라를 위한 권한 ver.2 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <!--핸드폰 카메라를 위한 권한 ver.2-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 핸드폰 카메라를 위한 권한 ver.2 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -32,26 +26,26 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activity.SignupActivity"
-            android:exported="false" />
-
-
-        <activity
-            android:name=".activity.LoginActivity"
-            android:exported="true">
-
-
-
-        </activity>
-
-        <activity
-            android:name=".activity.MainActivity"
-            android:exported="true">
+            android:name=".activity.IntroActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".activity.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:exported="true">
 
         </activity>
 
@@ -64,8 +58,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
-
     </application>
 
 </manifest>

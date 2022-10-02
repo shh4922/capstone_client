@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rc_refigerator_background"
+        android:orientation="vertical">
+
 
         <TextView
-            android:id="@+id/tv_itemname"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="item"
-            android:textSize="20dp"></TextView>
-
-        <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="date"
-            android:textSize="20dp"></TextView>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="당신의 레시피 리스트!"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_count"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_refrigerator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="count"
-            android:textSize="20dp"></TextView>
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/item_recipe" />
+
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

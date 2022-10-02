@@ -37,7 +37,7 @@ public interface APIservice {
 
 
     //텍스트결과 보내기
-    @POST("/textrunning")
+    @POST("/textrunning/")
     Call<TextDataResponse> getResultTexts(@Body Map request);
 
     //이미지 데이터 전송

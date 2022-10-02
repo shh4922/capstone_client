@@ -1,56 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/DefaultBackground"
     tools:context=".activity.LoginActivity">
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:id="@+id/textView"
+        android:textSize="45dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="✏️Login" />
 
     <EditText
         android:id="@+id/et_userid"
-        android:layout_width="247dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="112dp"
-        android:ems="10"
-        android:hint="아이디를 입력하세요"
+        android:background="@drawable/et_round"
+        android:layout_marginTop="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:hint="Email"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        />
+    <EditText
+        android:id="@+id/et_password"
+        android:background="@drawable/et_round"
+        android:layout_marginTop="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:hint=" Password"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:inputType="textPassword"
+        />
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="383dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="220dp"
-        android:backgroundTint="#0490FF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="#0DA6B6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
         android:text="로그인"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password" />
+        />
 
     <Button
         android:id="@+id/btn_sighup"
-        android:layout_width="378dp"
-        android:layout_height="42dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#0D1F93"
-        android:text="회원가입"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        android:backgroundTint="#E3BD7E"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="회원가입"/>
 
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="250dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:hint="비밀번호를 입력하세요"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_userid" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

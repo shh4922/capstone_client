@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="20dp"
+    app:cardCornerRadius="30dp">
+    <LinearLayout
+        android:background="@color/rc_refigerator_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="30dp"
+            android:text="레시피명"
+            android:textStyle="bold"
+            android:textSize="20sp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_item_date"
+            android:text="가능한 정도 %"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="50dp"
+            android:textStyle="bold"
+            android:textSize="20sp">
+        </TextView>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
