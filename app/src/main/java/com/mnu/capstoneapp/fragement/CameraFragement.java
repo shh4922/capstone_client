@@ -32,11 +32,13 @@ import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
+import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.activity.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -57,15 +59,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CameraFragement extends Fragment {
 
-
     final private static String TAG = "GILBOMI";
     Button btn_photo;
     ImageView iv_photo;
     final static int TAKE_PICTURE = 1;
-
     String mCurrentPhotoPath;
     final static int REQUEST_TAKE_PHOTO = 1;
-
 
     public CameraFragement() {
 
@@ -229,12 +228,25 @@ public class CameraFragement extends Fragment {
     //응답이 왔을때의 text를 한줄로 만들기위해 만든 함수
     //귀찮아서 그냥 라인띄어쓰기하는곳에서 바로 json으로 묶어서 서버로 보내게 하겠음
     public void getOneLine(List<ImgResponse.Result> resultList){
+        //전체묶일 json 하나
+        Map<String,Object> total = new LinkedHashMap<>();
+
+        //아이디값을 묶을 json
+        Map<String,String> id = new LinkedHashMap<>();
+        id.put("userid",LoginActivity.userid_local);
+
+
+
+        //단어배열을 각각{}로 묶어서 보내기
+        List<Map<Integer, Object>> listMapInsert = new ArrayList<Map<Integer, Object>>();
         //x,y좌표를 담고있을 배열
         int[] arry1;
         int[] arry2;
+
         //배열에서 가져온 y값을 담을 변수
         int y1=0,y2=0;
         int y1_,y2_;
+
         // 한 줄의 라인의 조건을 판별해줄 count
         int count=0;
         int key =0;
@@ -244,63 +256,84 @@ public class CameraFragement extends Fragment {
         List<int[]> tatalbox = null;
 
         //json으로 보내기 위한 linkedMap
-        Map<Integer,String> request =new LinkedHashMap<Integer,String>();
+        //Map<Integer,String> request =new LinkedHashMap<Integer,String>();
 
         for (ImgResponse.Result result : resultList){
             tatalbox= result.boxes;
+            //단어의 (x1,y1)좌표
             arry1=tatalbox.get(0);
+            //단어의 (x1,y2)좌표
             arry2=tatalbox.get(2);
 
+            //첫번쨰 단어는 그냥 비교할 객체가 없기에 그냥 저장하고 끝
             if(count == 0){
                 onelinestr+=Arrays.deepToString(result.recognition_words);
+                //arry[]가 x,y좌표를 가지고있고 arry[1]은 y좌표임
                 y1=arry1[1];
                 y2=arry2[1];
                 count++;
 
             }else {
+                //다음 단어의 y좌표 갖고옴
                 y1_=arry1[1];
                 y2_=arry2[1];
+
+                //처음 단어와 현재단어의 좌표값이 특정법위에 있을시,
                 if( (y1_>= y1-50 && y1_<=y1+50) && (y2_>=y2-50 && y2_<=y2+50) ) {
                     onelinestr += Arrays.deepToString(result.recognition_words);
                     count++;
 
                 }else{
-                    request.put(key,onelinestr);
+                    Map<Integer, Object> map = new LinkedHashMap<Integer, Object>();
+                    map.put(key,onelinestr);
+                    //request.put(key,onelinestr);
+                    listMapInsert.add(map);
+                    //<"키값","한줄의 텍스트"> 가 들어가기에 키값++, 한줄단어는 다시 null로
                     key++;
-                    System.out.println(onelinestr);
                     onelinestr="";
                     onelinestr += Arrays.deepToString(result.recognition_words);
                     count=0;
                 }
+                //현재위치가 이젠 이전위치로 바껴야함.
                 y1=y1_;
                 y2=y2_;
             }
         }
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
-        Map texts =new LinkedHashMap();
 
-        for(int i=0;i<request.size();i++){
-            Log.e("결과",(request.get(i)));
-            texts.put(i,request.get(i));
-        }
+        //Map texts =new LinkedHashMap();
+
+//        for(int i=0;i<request.size();i++){
+//            texts.put(i,request.get(i));
+//        }
+        total.put("user", id);
+        total.put("word",listMapInsert);
+
+        //ㅋ;;
+
+
+
+
+
+
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.252:8000")
+                .baseUrl("http://172.16.28.113:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         //통신을 위한 APIservice 생성
         APIservice textsend = retrofit.create(APIservice.class);
         //        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
-        textsend.getResultTexts(texts);
+        textsend.getResultTexts(total);
 
         /***
          * 띄어쓰기해서 묶은 데이터 확인하는 Log
          */
-        Log.d("로그",texts.toString());
 
-        textsend.getResultTexts(texts).enqueue(new Callback<TextDataResponse>() {
+
+        textsend.getResultTexts(total).enqueue(new Callback<TextDataResponse>() {
             @Override
             public void onResponse(Call<TextDataResponse> call, Response<TextDataResponse> response) {
                 switch (response.body().getCode()){

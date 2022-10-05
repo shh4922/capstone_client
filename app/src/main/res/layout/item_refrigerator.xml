@@ -22,26 +22,6 @@
             android:textSize="18dp">
         </TextView>
 
-        <TextView
-            android:id="@+id/tv_item_date"
-            android:text="아이탬 등록일"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="30dp"
-            android:textStyle="bold"
-            android:textSize="18sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/tv_item_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:text="개수"
-            android:textStyle="bold"
-            android:textSize="18sp"/>
 
     </LinearLayout>
 

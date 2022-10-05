@@ -4,6 +4,7 @@ import android.media.Image;
 
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64;
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.BinaryCodec;
+import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
@@ -38,10 +39,16 @@ public interface APIservice {
 
     //텍스트결과 보내기
     @POST("/textrunning/")
-    Call<TextDataResponse> getResultTexts(@Body Map request);
+    Call<TextDataResponse> getResultTexts(@Body Map<String,Object> request);
 
     //이미지 데이터 전송
     @Multipart
     @POST("v2/vision/text/ocr")
     Call<ImgResponse> getImgResponse(@Header("Authorization")String appkey,@Part MultipartBody.Part image);
+
+
+    //내 냉장고 아이템 가져오기
+    @POST("/getMyRefrigerator/")
+    Call<GetMyRefrigerator> getMyRefrigerator(@Body Map request);
+
 }

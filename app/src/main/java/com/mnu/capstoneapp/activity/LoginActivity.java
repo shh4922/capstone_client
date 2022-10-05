@@ -24,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
+    public static String userid_local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.252:8000")
+                .baseUrl("http://172.16.28.114:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -99,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     //성공
                     case "0000":
                         moveActivity(MainActivity.class);
+                        userid_local=userid;
                         ShowDialog(response.body().getMsg());
                         break;
                     case "0001":

@@ -1,6 +1,6 @@
 package com.mnu.capstoneapp;
 
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +16,15 @@ import java.util.ArrayList;
 public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdapter.ViewHolder> {
 
     private ArrayList<RefrigeratorData> refrigeratorData;
-    private Context mContext;
 
+    public RefrigeratrotAdapter (ArrayList<RefrigeratorData> refrigeratorData){
+        Log.e("로그","어댑터 생성");
+        this.refrigeratorData=refrigeratorData;
+    }
 
     @NonNull
     @Override
-    public RefrigeratrotAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_refrigerator, parent, false);
         return new ViewHolder(v);
     }
@@ -30,8 +33,7 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
     @Override
     public void onBindViewHolder(@NonNull RefrigeratrotAdapter.ViewHolder holder, int position) {
         holder.tv_item_name.setText(refrigeratorData.get(position).getTv_itemname());
-        holder.tv_item_count.setText(refrigeratorData.get(position).getTv_count());
-        holder.tv_item_date.setText(refrigeratorData.get(position).getTv_date());
+        Log.e("로그","홀더생성");
     }
 
 
@@ -44,8 +46,6 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
     //이름,등록일,개수 만든거 구성
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_item_name;
-        private TextView tv_item_date;
-        private TextView tv_item_count;
 
         /***
          * DB에서 데이터가져와서  holder에 저장
@@ -53,15 +53,10 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
          */
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            tv_item_name = itemView.findViewById(R.id.tv_item_name);
-            tv_item_date = itemView.findViewById(R.id.tv_item_date);
-            tv_item_count = itemView.findViewById(R.id.tv_item_count);
+            tv_item_name = (TextView)itemView.findViewById(R.id.tv_item_name);
+            Log.e("로그","뷰홀더 생성");
         }
     }
 
-    public void addItem(RefrigeratorData data){
-        refrigeratorData.add(data);
-    }
 
 }

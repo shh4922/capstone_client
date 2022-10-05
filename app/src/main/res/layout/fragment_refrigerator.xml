@@ -24,26 +24,29 @@
             android:textSize="25dp"
             android:textStyle="bold" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_refrigerator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/item_refrigerator" />
+            android:layout_height="match_parent"
+            >
 
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_plus"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:backgroundTint="@color/btn"
+            android:clickable="true"
+            android:src="@drawable/ic_plus"
+            android:tint="@color/white"
+            app:fabCustomSize="40dp" />
+        <!--app:rippleColor="@color/red" 이게 무슨 코드였지...?-->
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp"
-        app:fabCustomSize="40dp"
-        android:backgroundTint="@color/btn"
-        android:tint="@color/white"
-        android:src="@drawable/ic_plus" />
-        <!--app:rippleColor="@color/red" 이게 무슨 코드였지...?-->
+
+
 </FrameLayout>
