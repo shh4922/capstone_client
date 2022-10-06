@@ -18,7 +18,6 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
     private ArrayList<RefrigeratorData> refrigeratorData;
 
     public RefrigeratrotAdapter (ArrayList<RefrigeratorData> refrigeratorData){
-        Log.e("로그","어댑터 생성");
         this.refrigeratorData=refrigeratorData;
     }
 
@@ -33,7 +32,6 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
     @Override
     public void onBindViewHolder(@NonNull RefrigeratrotAdapter.ViewHolder holder, int position) {
         holder.tv_item_name.setText(refrigeratorData.get(position).getTv_itemname());
-        Log.e("로그","홀더생성");
     }
 
 
@@ -54,7 +52,6 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_item_name = (TextView)itemView.findViewById(R.id.tv_item_name);
-            Log.e("로그","뷰홀더 생성");
         }
     }
 

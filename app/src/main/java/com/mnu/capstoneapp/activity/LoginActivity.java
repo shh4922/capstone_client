@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.28.114:8000")
+                .baseUrl("http://172.16.28.64:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -1,5 +1,7 @@
 package com.mnu.capstoneapp.fragement;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,82 +41,96 @@ public class RefrigeratorFragment extends Fragment {
     //어댑터 생성
     public RecyclerView.Adapter adapter_refrigerater;
     //냉장고 데이터 생성
-    private ArrayList<RefrigeratorData> data = new ArrayList<>();
+    public ArrayList<RefrigeratorData> arylist_refrigerator  ;
 
     //통신후 얻은 item[]를 저장하는 공간
-    List<String> result_list= null;
+    List<String> result_list = new ArrayList<>();
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-//        for(int i=0;i<5;i++){
-//            RefrigeratorData d = new RefrigeratorData("gg");
-//            data2.add(d);
-//        }
+        Log.e("로그","onCreateView");
         View view = inflater.inflate(R.layout.fragment_refrigerator, container, false);
-        //서버에서 값 받아오기
-        data=sendToServer();
-
-        rc_refrigerater = (RecyclerView)view.findViewById(R.id.rv_refrigerator);
+        rc_refrigerater = (RecyclerView) view.findViewById(R.id.rv_refrigerator);
         rc_refrigerater.setHasFixedSize(true);
-        adapter_refrigerater= new RefrigeratrotAdapter(data);
-        RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
-        rc_refrigerater.setLayoutManager(mlayoutManager);
-        rc_refrigerater.setAdapter(adapter_refrigerater);
+
         return view;
     }
 
-    public ArrayList<RefrigeratorData> sendToServer(){
-        ArrayList<RefrigeratorData> refrigeratorData= new ArrayList<>();
-
+    public void sendToServer() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.28.114:8000")
+                .baseUrl("http://172.16.28.64:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         APIservice getItems = retrofit.create(APIservice.class);
 
         //보낼요청에 사용자 아이디넣어서 보냄
-        Map request =new LinkedHashMap();
-        request.put("userid",LoginActivity.userid_local);
+        Map request = new LinkedHashMap();
+        request.put("userid", LoginActivity.userid_local);
 
-        getItems.getMyRefrigerator(request);
+
         getItems.getMyRefrigerator(request).enqueue(new Callback<GetMyRefrigerator>() {
             @Override
             public void onResponse(Call<GetMyRefrigerator> call, Response<GetMyRefrigerator> response) {
                 result_list = response.body().getItems();
-                RefrigeratorData  refrigerator_list= null;
 
-                for(int i=0;i<result_list.size();i++){
-                    //adapter에 넘겨줄 Refrigerator[] 만들기
-                    refrigerator_list= new RefrigeratorData(result_list.get(i));
-                    refrigeratorData.add(refrigerator_list);
+                for (int i = 0; i < result_list.size(); i++) {
+                    arylist_refrigerator.add(new RefrigeratorData(result_list.get(i)));
+                    Log.e("로그", "arylist_refrigerator "+ i+" : " + arylist_refrigerator.get(i).getTv_itemname());
+                }
+                if (arylist_refrigerator.isEmpty()){
+                    Log.e("로그","result2 is empty_2");
+                }else {
+                    Log.e("로그","result2 is not empty_2");
                 }
             }
-
             @Override
             public void onFailure(Call<GetMyRefrigerator> call, Throwable t) {
-                Log.e("로그","아이탭 응답실패",t);
-
+                Log.e("로그", "서버에서 내냉장고 아이탬 가져오기실패 : ", t);
             }
         });
-        return refrigeratorData;
+
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sendToServer();
+        //서버로 값 보내서 받아오기
+        Log.e("로그", "onCreate실행");
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("로그","onStart");
 
+        /**
+         * 서버로 데이터 요청
+         */
+        sendToServer();
+
+        /***
+         * recycleview에 데이터전송
+         */
+        adapter_refrigerater = new RefrigeratrotAdapter(arylist_refrigerator);
+        Log.e("로그","어댑터에 추가완료");
+        RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
+        rc_refrigerater.setLayoutManager(mlayoutManager);
+        rc_refrigerater.setAdapter(adapter_refrigerater);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("로그","onResume");
+    }
 
     @Override
     public void onStop() {
         super.onStop();
         //화면이 안보일때 데이터를 clear
-        //그래야 중복해서 계속쌓이지않음.
-        data.clear();
+        arylist_refrigerator.clear();
     }
 }

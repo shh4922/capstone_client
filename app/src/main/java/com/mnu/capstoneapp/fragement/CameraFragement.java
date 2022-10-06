@@ -312,12 +312,6 @@ public class CameraFragement extends Fragment {
 
         //ㅋ;;
 
-
-
-
-
-
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://172.16.28.113:8000")
                 .addConverterFactory(GsonConverterFactory.create())
