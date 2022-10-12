@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_login).setOnClickListener(onClickListener);
         findViewById(R.id.btn_sighup).setOnClickListener(onClickListener);
+
     }
 
 

@@ -313,13 +313,13 @@ public class CameraFragement extends Fragment {
         //ㅋ;;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.28.113:8000")
+                .baseUrl("http://172.16.28.64:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         //통신을 위한 APIservice 생성
         APIservice textsend = retrofit.create(APIservice.class);
-        //        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
+        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         textsend.getResultTexts(total);
 
         /***

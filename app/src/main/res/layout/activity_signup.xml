@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:text="✏️SignUp"
+        android:text="🍙 SignUp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="45dp" />
     <EditText
