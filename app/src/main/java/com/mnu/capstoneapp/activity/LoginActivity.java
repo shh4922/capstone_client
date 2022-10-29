@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.28.64:8000")
+                .baseUrl("http://172.30.1.63:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         APIservice loginService = retrofit.create(APIservice.class);
         //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         loginService.getLoginResponse(request);
+
 
         //통신
         loginService.getLoginResponse(request).enqueue(new Callback<LoginResponse>() {

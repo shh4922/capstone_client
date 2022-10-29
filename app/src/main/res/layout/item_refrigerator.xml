@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,16 +11,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/tv_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="10dp"
+            android:text="재료:"
+            android:textSize="15dp">
+        </TextView>
         <TextView
             android:id="@+id/tv_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="3dp"
             android:text="아이탬명"
             android:textStyle="bold"
-            android:textSize="18dp">
+            android:textSize="15dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:text="등록일자: "
+            android:textSize="15dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="3dp"
+            android:text="날자"
+            android:textStyle="bold"
+            android:textSize="15dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_text_counts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:text="개수: "
+            android:textSize="15dp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_item_counts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="개수"
+            android:textStyle="bold"
+            android:textSize="15dp">
         </TextView>
 
 

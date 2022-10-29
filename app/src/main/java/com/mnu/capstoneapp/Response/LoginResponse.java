@@ -2,8 +2,11 @@ package com.mnu.capstoneapp.Response;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
 
+/***
+ * 로그인&회원가입 인증을 위한곳
+ */
+public class LoginResponse {
     @SerializedName("code")
     private String code;
     @SerializedName("msg")

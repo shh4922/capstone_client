@@ -12,28 +12,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp">
-        <TextView
-            android:id="@+id/tv_recipe_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="30dp"
-            android:text="레시피명"
+        <EditText
+            android:id="@+id/et_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="items"
             android:textStyle="bold"
             android:textSize="20sp">
-        </TextView>
-
-        <TextView
-            android:id="@+id/tv_umm"
-            android:text="가능한 정도 %"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="50dp"
-            android:textStyle="bold"
-            android:textSize="20sp">
-        </TextView>
-
+        </EditText>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

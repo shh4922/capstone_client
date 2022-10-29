@@ -1,26 +1,17 @@
 package com.mnu.capstoneapp;
 
-import android.media.Image;
-
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.Base64;
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.codec.binary.BinaryCodec;
+import com.mnu.capstoneapp.Response.GetMyRecipe;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -50,5 +41,9 @@ public interface APIservice {
     //내 냉장고 아이템 가져오기
     @POST("/getMyRefrigerator/")
     Call<GetMyRefrigerator> getMyRefrigerator(@Body Map request);
+
+
+    @POST("/getMyRecipe/")
+    Call<GetMyRecipe> getMyRecipe(@Body Map request);
 
 }

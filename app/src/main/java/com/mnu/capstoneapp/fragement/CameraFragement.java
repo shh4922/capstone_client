@@ -2,8 +2,6 @@ package com.mnu.capstoneapp.fragement;
 
 import static android.app.Activity.RESULT_OK;
 
-import static androidx.core.content.ContextCompat.checkSelfPermission;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,8 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -33,22 +29,17 @@ import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
 import com.mnu.capstoneapp.activity.LoginActivity;
-import com.mnu.capstoneapp.activity.MainActivity;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,11 +56,6 @@ public class CameraFragement extends Fragment {
     final static int TAKE_PICTURE = 1;
     String mCurrentPhotoPath;
     final static int REQUEST_TAKE_PHOTO = 1;
-
-    public CameraFragement() {
-
-    }
-
 
 
     @Override
@@ -183,30 +169,24 @@ public class CameraFragement extends Fragment {
 
     //카카오로 이미지 전송하는 함수 (찍었던 사진을 받아와야함)
     public void sendImgKaKaO(File photoFile){
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         //앱키 설정
         String appkey = "KakaoAK 9a1ca247a8a58968ceef53e69d4187ef";
-
         //이미지는 png든 jpng든 모든파일이 가능하도록 설정
         RequestBody requestimg = RequestBody.create(MediaType.parse("image/*"), photoFile);
         //사진의 이름과, 찍은 사진을  body에 묶음
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", photoFile.getName(), requestimg);
-
         //APIservice 생성
         APIservice imgservice = retrofit.create(APIservice.class);
         //앱키와 body를 넣어서 통신
         imgservice.getImgResponse(appkey,body).enqueue(new Callback<ImgResponse>() {
             @Override
             public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
-
                 //통신에 성공하였을떄 응답이 온것을 imgResponse에 넣어둠
                 ImgResponse imgResponse = response.body();
-
                 //응답이 제대로 왔을경우
                 if (response.isSuccessful()){
                     List<ImgResponse.Result> resultList = imgResponse.result;
@@ -215,7 +195,6 @@ public class CameraFragement extends Fragment {
                     System.out.println(response.code());
                 }
             }
-
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
                 //통신에 실패할경우
@@ -235,10 +214,9 @@ public class CameraFragement extends Fragment {
         Map<String,String> id = new LinkedHashMap<>();
         id.put("userid",LoginActivity.userid_local);
 
-
-
         //단어배열을 각각{}로 묶어서 보내기
         List<Map<Integer, Object>> listMapInsert = new ArrayList<Map<Integer, Object>>();
+
         //x,y좌표를 담고있을 배열
         int[] arry1;
         int[] arry2;
@@ -302,18 +280,13 @@ public class CameraFragement extends Fragment {
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
 
-        //Map texts =new LinkedHashMap();
-
-//        for(int i=0;i<request.size();i++){
-//            texts.put(i,request.get(i));
-//        }
         total.put("user", id);
         total.put("word",listMapInsert);
 
         //ㅋ;;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.28.64:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -325,23 +298,11 @@ public class CameraFragement extends Fragment {
         /***
          * 띄어쓰기해서 묶은 데이터 확인하는 Log
          */
-
-
         textsend.getResultTexts(total).enqueue(new Callback<TextDataResponse>() {
             @Override
             public void onResponse(Call<TextDataResponse> call, Response<TextDataResponse> response) {
-                switch (response.body().getCode()){
-                    //성공
-                    case "0000":
-                        Log.d("로그","0000");
-                        break;
-                    case "0001":
-                        Log.d("로그","0001");
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + response.body().getCode());
+                List<TextDataResponse.ItemList> result= response.body().getText_items();
 
-                }
             }
             @Override
             public void onFailure(Call<TextDataResponse> call, Throwable t) {

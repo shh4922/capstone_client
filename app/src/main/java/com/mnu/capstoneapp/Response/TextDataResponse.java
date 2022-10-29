@@ -2,29 +2,26 @@ package com.mnu.capstoneapp.Response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+/***
+ * text들을 넣았을때  데이터들을 응답으로 만듬.
+ */
 public class TextDataResponse {
-    @SerializedName("code")
-    private String code;
-    @SerializedName("msg")
-    private String msg;
+    @SerializedName("item_list")
+    private List<ItemList> text_items =null;
 
+    public class ItemList{
+        @SerializedName("item_name")
+        public String item_name;
 
-    public TextDataResponse(String code,String msg){
-        this.code = code;
-        this.msg =msg;
     }
 
+    public List<ItemList> getText_items() {
+        return text_items;
+    }
 
-    public String getMsg() {
-        return msg;
-    }
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-    public String getCode() {
-        return code;
-    }
-    public void setCode(String code) {
-        this.code = code;
+    public void setText_items(List<ItemList> text_items) {
+        this.text_items = text_items;
     }
 }

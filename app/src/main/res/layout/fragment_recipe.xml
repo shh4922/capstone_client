@@ -25,7 +25,7 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_refrigerator"
+            android:id="@+id/rv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_recipe" />
