@@ -8,18 +8,20 @@
     app:cardCornerRadius="30dp">
     <LinearLayout
         android:background="@color/rc_refigerator_item"
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp">
+        >
         <EditText
             android:id="@+id/et_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:textColor="@color/black"
             android:text="items"
             android:textStyle="bold"
-            android:textSize="20sp">
+            android:textSize="15sp">
         </EditText>
     </LinearLayout>
 

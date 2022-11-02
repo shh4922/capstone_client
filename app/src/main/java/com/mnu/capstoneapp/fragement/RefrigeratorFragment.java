@@ -10,15 +10,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
+import com.mnu.capstoneapp.Response.dafaultResponce;
 import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.data.RefrigeratorData;
-import com.mnu.capstoneapp.RefrigeratrotAdapter;
+import com.mnu.capstoneapp.adpter.RefrigeratrotAdapter;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -26,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,18 +39,19 @@ public class RefrigeratorFragment extends Fragment {
     //리사이클러뷰 생성
     public RecyclerView rc_refrigerater;
     //어댑터 생성
-    public RecyclerView.Adapter adapter_refrigerater;
+    public RefrigeratrotAdapter adapter_refrigerater;
     //냉장고 데이터 생성
     public ArrayList<RefrigeratorData> total_items = new ArrayList<>();
     //통신후 얻은 item[]를 저장하는 공간
     List<GetMyRefrigerator.OBG> result_list = new ArrayList<>();
 
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e("로그", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_refrigerator, container, false);
+
+
         rc_refrigerater = (RecyclerView) view.findViewById(R.id.rv_refrigerator);
         rc_refrigerater.setHasFixedSize(true);
 
@@ -57,7 +62,7 @@ public class RefrigeratorFragment extends Fragment {
     public List<GetMyRefrigerator.OBG> sendToServer() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.63:8000")
+                .baseUrl("http://192.168.0.18:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice getItems = retrofit.create(APIservice.class);
@@ -69,12 +74,12 @@ public class RefrigeratorFragment extends Fragment {
          */
         Call<GetMyRefrigerator> callSync = getItems.getMyRefrigerator(request);
         try {
-            Log.e("로그","1");
+            Log.e("로그", "1");
             Response<GetMyRefrigerator> response = callSync.execute();
             return response.body().getItems();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
-            Log.e("로그","통신중 결함",ex);
+            Log.e("로그", "통신중 결함", ex);
         }
         return null;
     }
@@ -94,18 +99,18 @@ public class RefrigeratorFragment extends Fragment {
          * 서버로 데이터 요청
          */
         new Thread() {
-            public void run(){
-                Log.e("로그","스레드실행");
+            public void run() {
+                Log.e("로그", "스레드실행");
                 result_list = sendToServer(); // network 동작, 인터넷에서 xml을 받아오는 코드
 
             }
         }.start();
 
         for (int i = 0; i < result_list.size(); i++) {
-            Log.e("로그",result_list.get(i).item_name);
-            Log.e("로그",result_list.get(i).item_date);
-            Log.e("로그",result_list.get(i).item_counts);
-            total_items.add(new RefrigeratorData(result_list.get(i).item_name,result_list.get(i).item_date,result_list.get(i).item_counts));
+            Log.e("로그", result_list.get(i).item_name);
+            Log.e("로그", result_list.get(i).item_date);
+            Log.e("로그", result_list.get(i).item_counts);
+            total_items.add(new RefrigeratorData(result_list.get(i).item_name, result_list.get(i).item_date, result_list.get(i).item_counts));
         }
 
         /***
@@ -130,4 +135,64 @@ public class RefrigeratorFragment extends Fragment {
         super.onStop();
         total_items.clear();
     }
+
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = adapter_refrigerater.getPosition();
+        RefrigeratorData data = total_items.get(position);
+
+        switch (item.getItemId()) {
+            case R.id.action_insert:
+                Log.e("로그", "수정");
+                return true;
+            case R.id.action_delete:
+                adapter_refrigerater.removeItem(position);
+                removeItem(data);
+
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
+    }
+
+    public void removeItem(RefrigeratorData data) {
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.18:8000")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        APIservice service = retrofit.create(APIservice.class);
+
+        Map request = new LinkedHashMap();
+        request.put("userid", LoginActivity.userid_local);
+        request.put("item_name", data.getTv_itemname());
+
+        service.deleteMyItem(request).enqueue(new Callback<dafaultResponce>() {
+            @Override
+            public void onResponse(Call<dafaultResponce> call, Response<dafaultResponce> response) {
+                switch (response.body().getCode()) {
+                    case "0000":
+
+                        Toast.makeText(getContext(), "삭제되었습니다", Toast.LENGTH_LONG).show();
+                        Log.e("로그", "삭제완료");
+                        break;
+                    default:
+                        Log.e("로그", "틀림");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<dafaultResponce> call, Throwable t) {
+                Log.e("로그", "통신실패", t);
+            }
+        });
+
+    }
+
+
 }

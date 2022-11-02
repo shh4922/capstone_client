@@ -6,46 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rc_refigerator_background"
         android:orientation="vertical">
 
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="냉장고"
-            android:textColor="@color/black"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
+            android:layout_gravity="bottom|end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="80dp"
+            android:layout_marginEnd="30dp"
+            app:srcCompat="@drawable/ic_floatbutton" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_refrigerator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_plus"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:backgroundTint="@color/btn"
-            android:clickable="true"
-            android:src="@drawable/ic_plus"
-            android:tint="@color/white"
-            app:fabCustomSize="40dp" />
+
         <!--app:rippleColor="@color/red" 이게 무슨 코드였지...?-->
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

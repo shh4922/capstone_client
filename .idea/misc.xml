@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/drawable/ic_bottom_camera.xml" value="0.101" />
         <entry key="app/src/main/res/drawable/ic_bottom_recipe.xml" value="0.2285" />
         <entry key="app/src/main/res/drawable/ic_bottom_setting.xml" value="0.2285" />
+        <entry key="app/src/main/res/drawable/ic_floatbutton.xml" value="0.2615" />
         <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.2285" />
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.13229166666666667" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.21856689453125" />
@@ -20,7 +21,7 @@
         <entry key="app/src/main/res/layout/fragment_camera2_basic.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_customdialog.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.31909027099609377" />
-        <entry key="app/src/main/res/layout/fragment_refrigerator.xml" value="0.29596099853515634" />
+        <entry key="app/src/main/res/layout/fragment_refrigerator.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/item_dialog.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_recipe.xml" value="0.375" />

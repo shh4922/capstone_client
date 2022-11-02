@@ -29,6 +29,7 @@ import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
 import com.mnu.capstoneapp.activity.LoginActivity;
+import com.mnu.capstoneapp.data.RunningItemList;
 
 import java.io.File;
 import java.io.IOException;
@@ -73,20 +74,19 @@ public class CameraFragement extends Fragment {
         btn_photo = view.findViewById(R.id.btn_photo);
 
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "권한 설정 완료");
-            }
-            else {
+            } else {
                 Log.d(TAG, "권한 설정 요청");
-                requestPermissions( new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
 
         btn_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.btn_photo:
                         dispatchTakePictureIntent();
 //                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -104,7 +104,7 @@ public class CameraFragement extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult");
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ) {
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Permission: " + permissions[0] + "was " + grantResults[0]);
         }
     }
@@ -113,7 +113,7 @@ public class CameraFragement extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        try{
+        try {
             switch (requestCode) {
                 case REQUEST_TAKE_PHOTO:
                     if (resultCode == RESULT_OK) {
@@ -127,7 +127,7 @@ public class CameraFragement extends Fragment {
                     break;
 
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -135,7 +135,7 @@ public class CameraFragement extends Fragment {
     // 사진 촬영 후 썸네일만 띄워줌. 이미지를 파일로 저장해야 함
     private File createImageFile() throws IOException {
 
-        String imageFileName = "img" ;
+        String imageFileName = "img";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,
@@ -151,14 +151,14 @@ public class CameraFragement extends Fragment {
     // 카메라 인텐트 실행하는 부분
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
 
             try {
                 photoFile = createImageFile();
+            } catch (IOException ex) {
             }
-            catch (IOException ex) { }
-            if(photoFile != null) {
+            if (photoFile != null) {
                 Uri photoURI = FileProvider.getUriForFile(getContext(), "com.mnu.capstoneapp.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -168,7 +168,7 @@ public class CameraFragement extends Fragment {
 
 
     //카카오로 이미지 전송하는 함수 (찍었던 사진을 받아와야함)
-    public void sendImgKaKaO(File photoFile){
+    public void sendImgKaKaO(File photoFile) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://dapi.kakao.com/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -182,23 +182,24 @@ public class CameraFragement extends Fragment {
         //APIservice 생성
         APIservice imgservice = retrofit.create(APIservice.class);
         //앱키와 body를 넣어서 통신
-        imgservice.getImgResponse(appkey,body).enqueue(new Callback<ImgResponse>() {
+        imgservice.getImgResponse(appkey, body).enqueue(new Callback<ImgResponse>() {
             @Override
             public void onResponse(Call<ImgResponse> call, Response<ImgResponse> response) {
                 //통신에 성공하였을떄 응답이 온것을 imgResponse에 넣어둠
                 ImgResponse imgResponse = response.body();
                 //응답이 제대로 왔을경우
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     List<ImgResponse.Result> resultList = imgResponse.result;
                     getOneLine(resultList);
-                }else {
+                } else {
                     System.out.println(response.code());
                 }
             }
+
             @Override
             public void onFailure(Call<ImgResponse> call, Throwable t) {
                 //통신에 실패할경우
-                Log.e("로그","카카오 통신 실패",t);
+                Log.e("로그", "카카오 통신 실패", t);
             }
         });
     }
@@ -206,13 +207,13 @@ public class CameraFragement extends Fragment {
 
     //응답이 왔을때의 text를 한줄로 만들기위해 만든 함수
     //귀찮아서 그냥 라인띄어쓰기하는곳에서 바로 json으로 묶어서 서버로 보내게 하겠음
-    public void getOneLine(List<ImgResponse.Result> resultList){
+    public void getOneLine(List<ImgResponse.Result> resultList) {
         //전체묶일 json 하나
-        Map<String,Object> total = new LinkedHashMap<>();
+        Map<String, Object> total = new LinkedHashMap<>();
 
         //아이디값을 묶을 json
-        Map<String,String> id = new LinkedHashMap<>();
-        id.put("userid",LoginActivity.userid_local);
+        Map<String, String> id = new LinkedHashMap<>();
+        id.put("userid", LoginActivity.userid_local);
 
         //단어배열을 각각{}로 묶어서 보내기
         List<Map<Integer, Object>> listMapInsert = new ArrayList<Map<Integer, Object>>();
@@ -222,66 +223,66 @@ public class CameraFragement extends Fragment {
         int[] arry2;
 
         //배열에서 가져온 y값을 담을 변수
-        int y1=0,y2=0;
-        int y1_,y2_;
+        int y1 = 0, y2 = 0;
+        int y1_, y2_;
 
         // 한 줄의 라인의 조건을 판별해줄 count
-        int count=0;
-        int key =0;
+        int count = 0;
+        int key = 0;
         //전체 텍스트 한줄을 담을 String
-        String onelinestr="";
+        String onelinestr = "";
         //전체 좌표box를 담을 List<int[]>
         List<int[]> tatalbox = null;
 
         //json으로 보내기 위한 linkedMap
         //Map<Integer,String> request =new LinkedHashMap<Integer,String>();
 
-        for (ImgResponse.Result result : resultList){
-            tatalbox= result.boxes;
+        for (ImgResponse.Result result : resultList) {
+            tatalbox = result.boxes;
             //단어의 (x1,y1)좌표
-            arry1=tatalbox.get(0);
+            arry1 = tatalbox.get(0);
             //단어의 (x1,y2)좌표
-            arry2=tatalbox.get(2);
+            arry2 = tatalbox.get(2);
 
             //첫번쨰 단어는 그냥 비교할 객체가 없기에 그냥 저장하고 끝
-            if(count == 0){
-                onelinestr+=Arrays.deepToString(result.recognition_words);
+            if (count == 0) {
+                onelinestr += Arrays.deepToString(result.recognition_words);
                 //arry[]가 x,y좌표를 가지고있고 arry[1]은 y좌표임
-                y1=arry1[1];
-                y2=arry2[1];
+                y1 = arry1[1];
+                y2 = arry2[1];
                 count++;
 
-            }else {
+            } else {
                 //다음 단어의 y좌표 갖고옴
-                y1_=arry1[1];
-                y2_=arry2[1];
+                y1_ = arry1[1];
+                y2_ = arry2[1];
 
                 //처음 단어와 현재단어의 좌표값이 특정법위에 있을시,
-                if( (y1_>= y1-50 && y1_<=y1+50) && (y2_>=y2-50 && y2_<=y2+50) ) {
+                if ((y1_ >= y1 - 50 && y1_ <= y1 + 50) && (y2_ >= y2 - 50 && y2_ <= y2 + 50)) {
                     onelinestr += Arrays.deepToString(result.recognition_words);
                     count++;
 
-                }else{
+                } else {
                     Map<Integer, Object> map = new LinkedHashMap<Integer, Object>();
-                    map.put(key,onelinestr);
+                    map.put(key, onelinestr);
                     //request.put(key,onelinestr);
                     listMapInsert.add(map);
                     //<"키값","한줄의 텍스트"> 가 들어가기에 키값++, 한줄단어는 다시 null로
                     key++;
-                    onelinestr="";
+                    onelinestr = "";
                     onelinestr += Arrays.deepToString(result.recognition_words);
-                    count=0;
+                    count = 0;
                 }
                 //현재위치가 이젠 이전위치로 바껴야함.
-                y1=y1_;
-                y2=y2_;
+                y1 = y1_;
+                y2 = y2_;
             }
         }
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
 
         total.put("user", id);
-        total.put("word",listMapInsert);
+        total.put("word", listMapInsert);
 
         //ㅋ;;
 
@@ -301,12 +302,22 @@ public class CameraFragement extends Fragment {
         textsend.getResultTexts(total).enqueue(new Callback<TextDataResponse>() {
             @Override
             public void onResponse(Call<TextDataResponse> call, Response<TextDataResponse> response) {
-                List<TextDataResponse.ItemList> result= response.body().getText_items();
+                ArrayList<RunningItemList> arylist = new ArrayList<>();
+                List<TextDataResponse.ItemList> result = response.body().getText_items();
+
+                for (int i = 0; i < result.size(); i++) {
+                    arylist.add(new RunningItemList(result.get(i).item_name));
+                }
+                //dialog 생성 및 호출
+                CustomeDialogFragment customeDialogFragment = new CustomeDialogFragment(arylist);
+                customeDialogFragment.show(getActivity().getSupportFragmentManager(),"dialog");
+
 
             }
+
             @Override
             public void onFailure(Call<TextDataResponse> call, Throwable t) {
-                Log.e("로그","서버에 text데이터 전송&응답 실패",t);
+                Log.e("로그", "서버에 text데이터 전송&응답 실패", t);
             }
         });
     }

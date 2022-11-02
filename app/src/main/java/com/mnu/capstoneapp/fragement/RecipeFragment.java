@@ -15,10 +15,8 @@ import android.view.ViewGroup;
 
 import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.R;
-import com.mnu.capstoneapp.RecipeAdapter;
-import com.mnu.capstoneapp.RefrigeratrotAdapter;
+import com.mnu.capstoneapp.adpter.RecipeAdapter;
 import com.mnu.capstoneapp.Response.GetMyRecipe;
-import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.data.RecipeData;
 
@@ -96,7 +94,7 @@ public class RecipeFragment extends Fragment {
     public List<GetMyRecipe.Recipe> getRecipeFromServer(){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.63:8000")
+                .baseUrl("http://192.168.0.18:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice service = retrofit.create(APIservice.class);

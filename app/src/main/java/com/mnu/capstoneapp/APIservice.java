@@ -5,16 +5,19 @@ import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
+import com.mnu.capstoneapp.Response.dafaultResponce;
 
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface APIservice {
 
@@ -46,4 +49,7 @@ public interface APIservice {
     @POST("/getMyRecipe/")
     Call<GetMyRecipe> getMyRecipe(@Body Map request);
 
+
+    @POST("/removeItem/")
+    Call<dafaultResponce> deleteMyItem(@Body Map request);
 }

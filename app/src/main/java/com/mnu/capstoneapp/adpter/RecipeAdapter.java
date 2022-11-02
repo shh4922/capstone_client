@@ -1,4 +1,4 @@
-package com.mnu.capstoneapp;
+package com.mnu.capstoneapp.adpter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.data.RecipeData;
 
 import java.util.ArrayList;
@@ -44,4 +45,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
             tv_recipe_name=(TextView) itemView.findViewById(R.id.tv_recipe_name);
         }
     }
+
+
 }
