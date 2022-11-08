@@ -6,47 +6,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/DefaultBackground"
+    android:background="@color/white"
     tools:context=".activity.SignupActivity">
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:background="#F1D4B6"
         android:gravity="center"
-        android:text="🍙 SignUp"
+        android:text="Sign up"
+        android:fontFamily="@font/font_intro"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="45dp" />
+        android:textSize="30dp" />
+
     <EditText
         android:id="@+id/et_username"
-        android:background="@drawable/et_round"
+        android:background="@drawable/et_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="40dp"
-        android:hint="사용자 이름을 입력하세요"
+        android:layout_marginTop="70dp"
+        android:textColorHint="#7E7A7A"
+        android:textColor="@color/black"
+        android:hint="Input your name"
         android:gravity="center"
         android:inputType="textPersonName"/>
 
     <EditText
         android:id="@+id/et_userid"
-        android:background="@drawable/et_round"
+        android:background="@drawable/et_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:hint="아이디를 입력하세요"
+        android:textColorHint="#7E7A7A"
+        android:hint="Input your email"
+        android:textColor="@color/black"
         android:gravity="center"
         android:inputType="textPersonName"
         />
     <EditText
         android:id="@+id/et_password"
-        android:background="@drawable/et_round"
+        android:background="@drawable/et_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25dp"
@@ -54,7 +60,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:hint="비밀번호를 입력하세요"
+        android:textColor="@color/black"
+        android:textColorHint="#7E7A7A"
+        android:hint="Input your password"
         android:inputType="textPassword"
         />
 
@@ -65,8 +73,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#0695A5"
-        android:text="확인"
+        android:backgroundTint="#F1CE94"
+        android:text="SUBMIT"
         android:textColor="@color/black"
         android:textStyle="bold"
         />

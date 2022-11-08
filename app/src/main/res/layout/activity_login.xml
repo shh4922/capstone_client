@@ -6,42 +6,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/DefaultBackground"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
     tools:context=".activity.LoginActivity">
 
     <TextView
-        android:layout_marginTop="30dp"
-        android:id="@+id/textView"
-        android:textSize="45dp"
+        android:id="@+id/textview2"
+        android:background="#EDCFB0"
+        android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textStyle="bold"
+        android:fontFamily="@font/font_intro"
         android:textColor="@color/black"
-        android:text="🍖️Login" />
+        android:text="Login" />
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/intro_img" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_marginTop="4dp"
+        android:textSize="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_intro"
+        android:textColor="@color/black"
+        android:text="냉장고를 부탁해~" />
 
     <EditText
         android:id="@+id/et_userid"
-        android:background="@drawable/et_round"
-        android:layout_marginTop="30sp"
+        android:background="@drawable/et_square"
+        android:layout_marginTop="60sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:gravity="center"
-        android:hint="Email"
+        android:hint="Your email address"
+        android:textColorHint="#7E7A7A"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:inputType="textPersonName"
         />
     <EditText
         android:id="@+id/et_password"
-        android:background="@drawable/et_round"
+        android:background="@drawable/et_square"
         android:layout_marginTop="30sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
+        android:textSize="25sp"
+        android:textColorHint="#7E7A7A"
         android:gravity="center"
-        android:hint=" Password"
+        android:hint="Your password"
+        android:textColor="@color/black"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:inputType="textPassword"
@@ -52,25 +78,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:backgroundTint="#0DA6B6"
+        android:backgroundTint="#4996BF"
+        android:background="@drawable/et_round"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="로그인"
+        android:text="SUBMIT"
         />
 
     <Button
         android:id="@+id/btn_sighup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/et_round"
         android:layout_marginTop="30dp"
-        android:backgroundTint="#E3BD7E"
+        android:backgroundTint="#F4CC8A"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:text="회원가입"/>
+        android:text="Sign in"/>
 
 
 </LinearLayout>

@@ -9,18 +9,18 @@
     tools:context=".activity.MainActivity">
 
     <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/container"></FrameLayout>
+        android:layout_height="match_parent"></FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_menubar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#345E86"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#f6d170"
+        android:background="@drawable/bottom_navbar"
+        app:itemIconTint="#E6C999"
+        app:itemTextColor="#150E0E"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_menu"/>
 

@@ -94,7 +94,7 @@ public class RecipeFragment extends Fragment {
     public List<GetMyRecipe.Recipe> getRecipeFromServer(){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.18:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice service = retrofit.create(APIservice.class);

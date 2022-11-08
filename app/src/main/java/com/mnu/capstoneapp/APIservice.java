@@ -52,4 +52,7 @@ public interface APIservice {
 
     @POST("/removeItem/")
     Call<dafaultResponce> deleteMyItem(@Body Map request);
+
+    @POST("/saveItem/")
+    Call<dafaultResponce> saveData(@Body Map request);
 }

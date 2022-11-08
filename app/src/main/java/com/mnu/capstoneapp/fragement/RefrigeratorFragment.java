@@ -1,5 +1,7 @@
 package com.mnu.capstoneapp.fragement;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -62,7 +64,7 @@ public class RefrigeratorFragment extends Fragment {
     public List<GetMyRefrigerator.OBG> sendToServer() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.18:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice getItems = retrofit.create(APIservice.class);
@@ -98,6 +100,8 @@ public class RefrigeratorFragment extends Fragment {
         /**
          * 서버로 데이터 요청
          */
+//        AsyncTaskRunner runner = new AsyncTaskRunner();
+//        result_list = (List<GetMyRefrigerator.OBG>) runner.execute();
         new Thread() {
             public void run() {
                 Log.e("로그", "스레드실행");
@@ -149,7 +153,6 @@ public class RefrigeratorFragment extends Fragment {
             case R.id.action_delete:
                 adapter_refrigerater.removeItem(position);
                 removeItem(data);
-
                 break;
 
             default:
@@ -162,7 +165,7 @@ public class RefrigeratorFragment extends Fragment {
     public void removeItem(RefrigeratorData data) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.18:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -194,5 +197,42 @@ public class RefrigeratorFragment extends Fragment {
 
     }
 
+    private class AsyncTaskRunner extends AsyncTask<String, String, List<GetMyRefrigerator.OBG>> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected List<GetMyRefrigerator.OBG> doInBackground(String... strings) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://172.17.220.103:8000")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            APIservice getItems = retrofit.create(APIservice.class);
+            //보낼요청에 사용자 아이디넣어서 보냄
+            Map request = new LinkedHashMap();
+            request.put("userid", LoginActivity.userid_local);
+            /***
+             * 동기로 처리하는 방법 테스트해봐야함
+             */
+            Call<GetMyRefrigerator> callSync = getItems.getMyRefrigerator(request);
+            try {
+                Log.e("로그", "1");
+                Response<GetMyRefrigerator> response = callSync.execute();
+                return response.body().getItems();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Log.e("로그", "통신중 결함", ex);
+            }
+            return null;
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(getContext(),
+                    "알림!",
+                    "데이터를 가져오는 중입니다~");
+        }
+
+    }
 
 }

@@ -9,24 +9,42 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:background="@color/rc_refigerator_background"
+        android:backgroundTint="@color/white"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/title"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="나의 냉장고"
+            android:fontFamily="@font/font_intro"
+            android:textColor="@color/black"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|end"
             android:layout_marginEnd="30dp"
-            app:srcCompat="@drawable/ic_floatbutton" />
+            android:layout_marginBottom="80dp"
+            android:backgroundTint="#F2FAFF"
+            android:src="@drawable/intro_img" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_refrigerator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="50dp"
+            tools:listitem="@layout/item_refrigerator">
 
         </androidx.recyclerview.widget.RecyclerView>
 

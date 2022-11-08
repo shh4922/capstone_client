@@ -280,7 +280,7 @@ public class CameraFragement extends Fragment {
         }
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
-
+        Log.e("로그",listMapInsert.toString());
         total.put("user", id);
         total.put("word", listMapInsert);
 

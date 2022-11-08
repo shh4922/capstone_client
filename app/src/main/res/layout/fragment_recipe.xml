@@ -9,17 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rc_refigerator_background"
+        android:backgroundTint="@color/white"
+        android:background="@color/white"
         android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/title"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="당신의 레시피 리스트!"
+            android:text="사용가능한 레시피"
+            android:fontFamily="@font/font_intro"
             android:textColor="@color/black"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -28,6 +31,7 @@
             android:id="@+id/rv_recipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             tools:listitem="@layout/item_recipe" />
 
     </LinearLayout>
