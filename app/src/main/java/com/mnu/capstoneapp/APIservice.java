@@ -55,4 +55,8 @@ public interface APIservice {
 
     @POST("/saveItem/")
     Call<dafaultResponce> saveData(@Body Map request);
+
+
+    @POST("/updateItem/")
+    Call<dafaultResponce> updateData(@Body Map request);
 }

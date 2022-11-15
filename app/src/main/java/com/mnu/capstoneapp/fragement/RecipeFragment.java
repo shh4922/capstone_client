@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,7 +39,6 @@ public class RecipeFragment extends Fragment {
     RecyclerView recyclerView;
     public RecyclerView.Adapter recipeAdapter;
     ArrayList<RecipeData> recipeData = new ArrayList<>();
-    List<GetMyRecipe.Recipe> result_list = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,19 +58,12 @@ public class RecipeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        new Thread(){
-            public void run(){
-                Log.e("로그","스레드실행");
-                result_list = getRecipeFromServer(); // network 동작, 인터넷에서 xml을 받아오는 코드
-            }
-        }.start();
+        getRecipyOnServer();
+    }
 
-        for(int i=0;i<result_list.size();i++){
-            recipeData.add(new RecipeData(result_list.get(i).recipe_name));
-            Log.e("로그",result_list.get(i).recipe_name);
-        }
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
         recipeAdapter = new RecipeAdapter(recipeData);
         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mlayoutManager);
@@ -78,21 +71,12 @@ public class RecipeFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         recipeData.clear();
     }
-
-
-    public List<GetMyRecipe.Recipe> getRecipeFromServer(){
-
+    
+    private void getRecipyOnServer(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -102,18 +86,22 @@ public class RecipeFragment extends Fragment {
         Map request = new LinkedHashMap();
         request.put("userid", LoginActivity.userid_local);
 
-        Call<GetMyRecipe> callSync = service.getMyRecipe(request);
-        try {
-            Response<GetMyRecipe> response = callSync.execute();
-            return response.body().getRecipe_list();
-        }catch (Exception ex){
-            ex.printStackTrace();
-            Log.e("로그","통신중 결함",ex);
-        }
-        return null;
+        service.getMyRecipe(request).enqueue(new Callback<GetMyRecipe>() {
+            @Override
+            public void onResponse(Call<GetMyRecipe> call, Response<GetMyRecipe> response) {
+                List<GetMyRecipe.Recipe> result = response.body().getRecipe_list();
+                for (int i=0;i<result.size();i++){
+                    recipeData.add(new RecipeData(result.get(i).recipe_name,result.get(i).points));
+                }
+                onResume();
+            }
 
+            @Override
+            public void onFailure(Call<GetMyRecipe> call, Throwable t) {
+
+            }
+        });
     }
-
 
 
 }

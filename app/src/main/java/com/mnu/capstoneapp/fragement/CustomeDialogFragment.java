@@ -41,14 +41,12 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
 
     //생성시, Arraylist를 받음
     public CustomeDialogFragment(ArrayList<RunningItemList> runningItemLists) {
-        Log.e("로그","dialog init");
         this.runningItemLists = runningItemLists;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("로그","dialog onCreate");
     }
 
 
@@ -68,7 +66,6 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("로그","dialog onStart");
         adapter = new DialogAdapter(runningItemLists);
         RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -81,33 +78,6 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
     }
 
 
-
-
-//    private void saveItem() {
-//
-//        Map request = new LinkedHashMap();
-//        request.put("userid", LoginActivity.userid_local);
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://172.17.220.103:8000")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        //통신을 위한 APIservice 생성
-//        APIservice service = retrofit.create(APIservice.class);
-//        //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
-//        service.saveData(request).enqueue(new Callback<dafaultResponce>() {
-//            @Override
-//            public void onResponse(Call<dafaultResponce> call, Response<dafaultResponce> response) {
-//                Log.e("로그","저장성공 ui 업뎃 ㄱㄱ");
-//            }
-//
-//            @Override
-//            public void onFailure(Call<dafaultResponce> call, Throwable t) {
-//                Log.e("로그","저장실패",t);
-//            }
-//        });
-//    }
 
     @Override
     public void onClick(View view) {

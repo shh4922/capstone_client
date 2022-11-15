@@ -38,6 +38,8 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
     }
 
 
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -103,6 +105,7 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
             ((Activity) view.getContext()).getMenuInflater().inflate(R.menu.item_longclick, contextMenu);
 
         }
+
 
 
     }

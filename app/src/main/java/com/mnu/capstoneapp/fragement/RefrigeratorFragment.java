@@ -44,8 +44,6 @@ public class RefrigeratorFragment extends Fragment {
     public RefrigeratrotAdapter adapter_refrigerater;
     //냉장고 데이터 생성
     public ArrayList<RefrigeratorData> total_items = new ArrayList<>();
-    //통신후 얻은 item[]를 저장하는 공간
-    List<GetMyRefrigerator.OBG> result_list = new ArrayList<>();
 
 
     @Override
@@ -61,8 +59,7 @@ public class RefrigeratorFragment extends Fragment {
         return view;
     }
 
-    public List<GetMyRefrigerator.OBG> sendToServer() {
-
+    private void getMyRefrigerator() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -71,52 +68,48 @@ public class RefrigeratorFragment extends Fragment {
         //보낼요청에 사용자 아이디넣어서 보냄
         Map request = new LinkedHashMap();
         request.put("userid", LoginActivity.userid_local);
-        /***
-         * 동기로 처리하는 방법 테스트해봐야함
-         */
-        Call<GetMyRefrigerator> callSync = getItems.getMyRefrigerator(request);
-        try {
-            Log.e("로그", "1");
-            Response<GetMyRefrigerator> response = callSync.execute();
-            return response.body().getItems();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Log.e("로그", "통신중 결함", ex);
-        }
-        return null;
+
+        getItems.getMyRefrigerator(request).enqueue(new Callback<GetMyRefrigerator>() {
+            @Override
+            public void onResponse(Call<GetMyRefrigerator> call, Response<GetMyRefrigerator> response) {
+                List<GetMyRefrigerator.OBG> result = response.body().getItems();
+                for (int i = 0; i < result.size(); i++) {
+                    total_items.add(new RefrigeratorData(result.get(i).item_name, result.get(i).item_date, result.get(i).item_counts));
+                }
+                onResume();
+            }
+
+            @Override
+            public void onFailure(Call<GetMyRefrigerator> call, Throwable t) {
+
+            }
+        });
+
     }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("로그", "onCreate실행");
+        Log.e("로그", "냉장고 온크레이트");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("로그", "onStart");
+        Log.e("로그", "냉장고 온스타트");
+
+        getMyRefrigerator();
         /**
          * 서버로 데이터 요청
          */
-//        AsyncTaskRunner runner = new AsyncTaskRunner();
-//        result_list = (List<GetMyRefrigerator.OBG>) runner.execute();
-        new Thread() {
-            public void run() {
-                Log.e("로그", "스레드실행");
-                result_list = sendToServer(); // network 동작, 인터넷에서 xml을 받아오는 코드
 
-            }
-        }.start();
+    }
 
-        for (int i = 0; i < result_list.size(); i++) {
-            Log.e("로그", result_list.get(i).item_name);
-            Log.e("로그", result_list.get(i).item_date);
-            Log.e("로그", result_list.get(i).item_counts);
-            total_items.add(new RefrigeratorData(result_list.get(i).item_name, result_list.get(i).item_date, result_list.get(i).item_counts));
-        }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("로그", "냉장고 온리줌");
         /***
          * recycleview에 데이터전송
          */
@@ -125,18 +118,12 @@ public class RefrigeratorFragment extends Fragment {
         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
         rc_refrigerater.setLayoutManager(mlayoutManager);
         rc_refrigerater.setAdapter(adapter_refrigerater);
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.e("로그", "onResume");
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Log.e("로그", "냉장고 온스탑");
         total_items.clear();
     }
 
@@ -147,14 +134,14 @@ public class RefrigeratorFragment extends Fragment {
         RefrigeratorData data = total_items.get(position);
 
         switch (item.getItemId()) {
-            case R.id.action_insert:
-                Log.e("로그", "수정");
-                return true;
+            case R.id.action_update:
+                UpdateDialogFragment updateDialogFragment = new UpdateDialogFragment(data,adapter_refrigerater);
+                updateDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog2");
+                break;
             case R.id.action_delete:
                 adapter_refrigerater.removeItem(position);
                 removeItem(data);
                 break;
-
             default:
                 break;
         }
@@ -180,12 +167,10 @@ public class RefrigeratorFragment extends Fragment {
             public void onResponse(Call<dafaultResponce> call, Response<dafaultResponce> response) {
                 switch (response.body().getCode()) {
                     case "0000":
-
                         Toast.makeText(getContext(), "삭제되었습니다", Toast.LENGTH_LONG).show();
-                        Log.e("로그", "삭제완료");
                         break;
                     default:
-                        Log.e("로그", "틀림");
+                        Toast.makeText(getContext(), "통신은했지만 오류", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -197,42 +182,5 @@ public class RefrigeratorFragment extends Fragment {
 
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, String, List<GetMyRefrigerator.OBG>> {
-        ProgressDialog progressDialog;
-
-        @Override
-        protected List<GetMyRefrigerator.OBG> doInBackground(String... strings) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://172.17.220.103:8000")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            APIservice getItems = retrofit.create(APIservice.class);
-            //보낼요청에 사용자 아이디넣어서 보냄
-            Map request = new LinkedHashMap();
-            request.put("userid", LoginActivity.userid_local);
-            /***
-             * 동기로 처리하는 방법 테스트해봐야함
-             */
-            Call<GetMyRefrigerator> callSync = getItems.getMyRefrigerator(request);
-            try {
-                Log.e("로그", "1");
-                Response<GetMyRefrigerator> response = callSync.execute();
-                return response.body().getItems();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                Log.e("로그", "통신중 결함", ex);
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = ProgressDialog.show(getContext(),
-                    "알림!",
-                    "데이터를 가져오는 중입니다~");
-        }
-
-    }
 
 }

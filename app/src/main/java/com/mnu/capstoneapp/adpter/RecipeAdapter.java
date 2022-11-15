@@ -30,6 +30,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_recipe_name.setText(recipeData.get(position).getTv_recipe_name());
+        holder.tv_points.setText(recipeData.get(position).getTv_points());
     }
 
     @Override
@@ -39,10 +40,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_recipe_name;
-
+        private TextView tv_points;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_recipe_name=(TextView) itemView.findViewById(R.id.tv_recipe_name);
+            tv_points=(TextView) itemView.findViewById(R.id.tv_points);
         }
     }
 

@@ -27,12 +27,22 @@
         </TextView>
 
         <TextView
-            android:id="@+id/tv_umm"
-            android:text=" 90 %"
+            android:id="@+id/tv_points"
+            android:text="퍼센트"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginStart="50dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+        </TextView>
+        <TextView
+            android:id="@+id/tv_umm"
+            android:text=" %"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp">

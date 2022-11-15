@@ -15,6 +15,9 @@ public class GetMyRecipe {
     public class Recipe{
         @SerializedName("recipe_name")
         public String recipe_name;
+
+        @SerializedName("points")
+        public String points;
     }
 
     public List<Recipe> getRecipe_list() {
