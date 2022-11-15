@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:backgroundTint="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="15dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
     <LinearLayout
         android:background="@drawable/rc_rounditemlist"
@@ -13,12 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        >
         <TextView
             android:id="@+id/tv_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"
             android:textColor="@color/black"
             android:text="레시피명"
@@ -28,25 +27,39 @@
 
         <TextView
             android:id="@+id/tv_points"
-            android:text="퍼센트"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginStart="50dp"
-            android:textStyle="bold"
+            android:layout_marginStart="70dp"
+            android:text="퍼센트"
             android:textColor="@color/black"
-            android:textSize="20sp">
-        </TextView>
+            android:textSize="20sp"
+            android:textStyle="bold"></TextView>
         <TextView
             android:id="@+id/tv_umm"
             android:text=" %"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp">
         </TextView>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        </View>
+        <Button
+            android:id="@+id/btn_recipeProcess"
+            android:layout_marginStart="10dp"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#99A0A3"
+            android:layout_marginEnd="5dp"
+            android:textColor="@color/black"
+            android:background="@drawable/show_recipe"
+            >
+        </Button>
 
     </LinearLayout>
 

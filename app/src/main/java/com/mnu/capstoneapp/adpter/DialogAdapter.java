@@ -109,9 +109,7 @@ public class DialogAdapter extends RecyclerView.Adapter<DialogAdapter.ViewHolder
                     if (isTextChanged) {
                         isTextChanged = false;
                         try {
-                            Log.e("로그","변경중");
                             runningItemLists.get(getAdapterPosition()).setItem_name(et_items.getText().toString());
-                            Log.e("로그",et_items.getText().toString());
                         } catch (Exception e) {
                             Log.e("로그", "텍스트수정에러", e);
                         } finally {

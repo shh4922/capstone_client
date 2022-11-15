@@ -4,6 +4,7 @@ import com.mnu.capstoneapp.Response.GetMyRecipe;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.LoginResponse;
+import com.mnu.capstoneapp.Response.RecipeProcessResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
 import com.mnu.capstoneapp.Response.dafaultResponce;
 
@@ -59,4 +60,7 @@ public interface APIservice {
 
     @POST("/updateItem/")
     Call<dafaultResponce> updateData(@Body Map request);
+
+    @POST("/getRecipeProcess/")
+    Call<RecipeProcessResponse> getRecipeProcess(@Body Map request);
 }
