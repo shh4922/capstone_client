@@ -1,7 +1,5 @@
 package com.mnu.capstoneapp.fragement;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.mnu.capstoneapp.APIservice;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.dafaultResponce;
@@ -36,7 +35,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RefrigeratorFragment extends Fragment {
+public class RefrigeratorFragment extends Fragment implements View.OnClickListener{
 
     //리사이클러뷰 생성
     public RecyclerView rc_refrigerater;
@@ -45,13 +44,15 @@ public class RefrigeratorFragment extends Fragment {
     //냉장고 데이터 생성
     public ArrayList<RefrigeratorData> total_items = new ArrayList<>();
 
+    private FloatingActionButton btn_float ;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.e("로그", "onCreateView");
         View view = inflater.inflate(R.layout.fragment_refrigerator, container, false);
-
-
+        btn_float= view.findViewById(R.id.btn_float);
+        btn_float.setOnClickListener(this);
         rc_refrigerater = (RecyclerView) view.findViewById(R.id.rv_refrigerator);
         rc_refrigerater.setHasFixedSize(true);
 
@@ -109,11 +110,6 @@ public class RefrigeratorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("로그", "냉장고 온리줌");
-        /***
-         * recycleview에 데이터전송
-         */
-
         adapter_refrigerater = new RefrigeratrotAdapter(total_items);
         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
         rc_refrigerater.setLayoutManager(mlayoutManager);
@@ -123,7 +119,6 @@ public class RefrigeratorFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        Log.e("로그", "냉장고 온스탑");
         total_items.clear();
     }
 
@@ -183,4 +178,12 @@ public class RefrigeratorFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_float:{
+                
+            }
+        }
+    }
 }

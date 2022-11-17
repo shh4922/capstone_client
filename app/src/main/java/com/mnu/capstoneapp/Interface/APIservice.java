@@ -1,4 +1,4 @@
-package com.mnu.capstoneapp;
+package com.mnu.capstoneapp.Interface;
 
 import com.mnu.capstoneapp.Response.GetMyRecipe;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
@@ -63,4 +63,7 @@ public interface APIservice {
 
     @POST("/getRecipeProcess/")
     Call<RecipeProcessResponse> getRecipeProcess(@Body Map request);
+
+    @POST("/useRecipe/")
+    Call<dafaultResponce> useToItem(@Body Map request);
 }

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mnu.capstoneapp.LongClickInterface;
+import com.mnu.capstoneapp.Interface.LongClickInterface;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.data.RefrigeratorData;
 

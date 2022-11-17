@@ -1,13 +1,13 @@
 package com.mnu.capstoneapp.fragement;
 
-import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,22 +15,11 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mnu.capstoneapp.APIservice;
 import com.mnu.capstoneapp.R;
-import com.mnu.capstoneapp.Response.dafaultResponce;
-import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.adpter.DialogAdapter;
 import com.mnu.capstoneapp.data.RunningItemList;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CustomeDialogFragment extends DialogFragment implements View.OnClickListener {
 
@@ -47,6 +36,7 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 
@@ -56,6 +46,9 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
         View view = inflater.inflate(R.layout.fragment_customdialog, container, false);
         btn_save = view.findViewById(R.id.btn_save);
         btn_save.setOnClickListener(this);
+
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rc_runningData);
         recyclerView.setHasFixedSize(true);

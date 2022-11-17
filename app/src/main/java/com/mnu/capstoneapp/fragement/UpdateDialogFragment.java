@@ -1,5 +1,7 @@
 package com.mnu.capstoneapp.fragement;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,18 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.mnu.capstoneapp.APIservice;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.dafaultResponce;
 import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.adpter.RefrigeratrotAdapter;
 import com.mnu.capstoneapp.data.RefrigeratorData;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -55,7 +54,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_dialog, container, false);
-
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         btn_update = view.findViewById(R.id.btn_update);
         btn_update.setOnClickListener(this);
 

@@ -8,17 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mnu.capstoneapp.APIservice;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.dafaultResponce;
 import com.mnu.capstoneapp.activity.LoginActivity;
 import com.mnu.capstoneapp.data.RunningItemList;
-import com.mnu.capstoneapp.fragement.CameraFragement;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

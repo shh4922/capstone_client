@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
-import com.mnu.capstoneapp.APIservice;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.adpter.RecipeAdapter;
 import com.mnu.capstoneapp.Response.GetMyRecipe;
@@ -37,8 +37,9 @@ public class RecipeFragment extends Fragment {
 
 
     RecyclerView recyclerView;
-    public RecyclerView.Adapter recipeAdapter;
+    public RecipeAdapter recipeAdapter;
     ArrayList<RecipeData> recipeData = new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +66,13 @@ public class RecipeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         recipeAdapter = new RecipeAdapter(recipeData);
+        recipeAdapter.setOnItemClickListener(new RecipeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ProcessDialogFragment processDialogFragment = new ProcessDialogFragment(recipeData.get(pos).getTv_recipe_name());
+                processDialogFragment.show(getActivity().getSupportFragmentManager(),"dialog3");
+            }
+        });
         RecyclerView.LayoutManager mlayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mlayoutManager);
         recyclerView.setAdapter(recipeAdapter);
@@ -101,6 +109,13 @@ public class RecipeFragment extends Fragment {
 
             }
         });
+    }
+
+
+
+
+    private void showDialog(){
+
     }
 
 

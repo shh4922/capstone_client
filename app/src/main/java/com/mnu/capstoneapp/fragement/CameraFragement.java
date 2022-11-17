@@ -3,9 +3,12 @@ package com.mnu.capstoneapp.fragement;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,10 +24,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.mnu.capstoneapp.APIservice;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.ImgResponse;
 import com.mnu.capstoneapp.Response.TextDataResponse;
@@ -311,6 +315,7 @@ public class CameraFragement extends Fragment {
                 //dialog 생성 및 호출
                 CustomeDialogFragment customeDialogFragment = new CustomeDialogFragment(arylist);
                 customeDialogFragment.show(getActivity().getSupportFragmentManager(),"dialog");
+
 
 
             }

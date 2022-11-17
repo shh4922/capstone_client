@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.mnu.capstoneapp.APIservice;
+import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.Response.LoginResponse;
 import com.mnu.capstoneapp.R;
 
