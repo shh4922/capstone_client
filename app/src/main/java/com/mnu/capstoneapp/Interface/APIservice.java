@@ -66,4 +66,9 @@ public interface APIservice {
 
     @POST("/useRecipe/")
     Call<dafaultResponce> useToItem(@Body Map request);
+
+    @POST("floatButtonAddItem/")
+    Call<dafaultResponce> floatButtonAddItem(@Body Map request);
+
+
 }

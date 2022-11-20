@@ -21,6 +21,7 @@ import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.Response.GetMyRefrigerator;
 import com.mnu.capstoneapp.Response.dafaultResponce;
 import com.mnu.capstoneapp.activity.LoginActivity;
+import com.mnu.capstoneapp.data.FloatData;
 import com.mnu.capstoneapp.data.RefrigeratorData;
 import com.mnu.capstoneapp.adpter.RefrigeratrotAdapter;
 
@@ -182,8 +183,11 @@ public class RefrigeratorFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_float:{
-                
+                FloatDialogFragment floatDialogFragment = new FloatDialogFragment();
+                floatDialogFragment.show(getActivity().getSupportFragmentManager(),"dialog3");
             }
         }
     }
+
+
 }
