@@ -63,7 +63,7 @@ public class RefrigeratorFragment extends Fragment implements View.OnClickListen
 
     private void getMyRefrigerator() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice getItems = retrofit.create(APIservice.class);
@@ -141,14 +141,18 @@ public class RefrigeratorFragment extends Fragment implements View.OnClickListen
             default:
                 break;
         }
-
         return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     public void removeItem(RefrigeratorData data) {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

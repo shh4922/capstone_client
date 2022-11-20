@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:backgroundTint="#FFFFFF"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="15dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
     <LinearLayout
         android:background="@drawable/rc_rounditemlist"
@@ -23,7 +23,7 @@
             android:textColor="#4A4747"
             android:textStyle="bold"
             android:text="재료:"
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
         <TextView
             android:id="@+id/tv_item_name"
@@ -34,7 +34,7 @@
             android:text="아이탬명"
             android:textColor="#4A4747"
             android:textStyle="bold"
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
         <TextView
             android:id="@+id/tv_text_date"
@@ -45,7 +45,7 @@
             android:text="등록일자: "
             android:textColor="#4A4747"
             android:textStyle="bold"
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
         <TextView
             android:id="@+id/tv_item_date"
@@ -56,7 +56,7 @@
             android:text="날자"
             android:textColor="#4A4747"
             android:textStyle="bold"
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
         <TextView
             android:id="@+id/tv_text_counts"
@@ -67,7 +67,7 @@
             android:textColor="#4A4747"
             android:textStyle="bold"
             android:text="개수: "
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
         <TextView
             android:id="@+id/tv_item_counts"
@@ -76,9 +76,8 @@
             android:layout_gravity="center_vertical"
             android:text="개수"
             android:textColor="#4A4747"
-
             android:textStyle="bold"
-            android:textSize="15dp">
+            android:textSize="13sp">
         </TextView>
 
 

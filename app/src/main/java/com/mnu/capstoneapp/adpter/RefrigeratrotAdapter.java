@@ -105,9 +105,10 @@ public class RefrigeratrotAdapter extends RecyclerView.Adapter<RefrigeratrotAdap
             ((Activity) view.getContext()).getMenuInflater().inflate(R.menu.item_longclick, contextMenu);
 
         }
+    }
 
-
-
+    public void Refresh(){
+        notifyDataSetChanged();
     }
 
 

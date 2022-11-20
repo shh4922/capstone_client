@@ -78,7 +78,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
 
     private void getRecipeProcess() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice service = retrofit.create(APIservice.class);
@@ -135,7 +135,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
 
     private void useItemSendToServer() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

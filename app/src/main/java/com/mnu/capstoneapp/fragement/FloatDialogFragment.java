@@ -110,19 +110,20 @@ public class FloatDialogFragment extends DialogFragment implements View.OnClickL
         List list = new ArrayList();
         for(int i=0;i<arylisy.size();i++){
             Map request_i = new LinkedHashMap();
-            request_i.put("itemname",arylisy.get(i).getItem_name());
-            request_i.put("itemcount",arylisy.get(i).getCount());
+            request_i.put("item_name",arylisy.get(i).getItem_name());
+            request_i.put("item_count",arylisy.get(i).getCount());
             list.add(request_i);
         }
         request.put("user", user);
         request.put("items",list);
+        Log.e("로그",request.toString());
         sendToItems(request);
     }
 
     private void sendToItems(Map request){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

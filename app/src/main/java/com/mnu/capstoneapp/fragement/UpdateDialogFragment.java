@@ -1,5 +1,6 @@
 package com.mnu.capstoneapp.fragement;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,13 +40,14 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
     RefrigeratorData data;
     RefrigeratrotAdapter adapter;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
 
-    public UpdateDialogFragment(RefrigeratorData data,RefrigeratrotAdapter adapter) {
+    public UpdateDialogFragment(RefrigeratorData data, RefrigeratrotAdapter adapter) {
         this.data =data;
         this.adapter =adapter;
     }
@@ -70,7 +72,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
     private void updateItem() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -88,7 +90,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
                 switch (response.body().getCode()) {
                     case "0000":
                         Toast.makeText(getContext(), "업데이트완료 ㅎ", Toast.LENGTH_LONG).show();
-                        adapter.notifyDataSetChanged();
+                        adapter.Refresh();
                         dismiss();
                         break;
                     default:
