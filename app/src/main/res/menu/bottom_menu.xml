@@ -16,12 +16,6 @@
         android:title="레시피"
         app:showAsAction="always" />
     <item
-        android:id="@+id/setting"
-        android:enabled="true"
-        android:icon="@drawable/ic_bottom_setting"
-        android:title="설정"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/camera"
         android:enabled="true"
         android:icon="@drawable/ic_bottom_camera"

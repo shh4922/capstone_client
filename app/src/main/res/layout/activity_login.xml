@@ -12,15 +12,16 @@
 
     <TextView
         android:id="@+id/textview2"
-        android:background="#EDCFB0"
-        android:textSize="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textStyle="bold"
+        android:background="#FFFFFF"
         android:fontFamily="@font/font_intro"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="Login"
         android:textColor="@color/black"
-        android:text="Login" />
+        android:textSize="40dp"
+        android:textStyle="bold" />
 
 
     <ImageView

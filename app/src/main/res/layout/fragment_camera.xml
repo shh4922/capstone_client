@@ -1,32 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/iv_photo"
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            tools:ignore="MissingConstraints" />
+            android:gravity="center"
+            android:text="아래 사진과같이 영수증을 촬영해주세요!"
+            android:textColor="@color/black"
+            android:textSize="23sp"
+            android:fontFamily="@font/font_intro"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="46dp">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="349dp"
+            android:layout_height="394dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_photo"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="31dp"></ImageView>
 
         <Button
             android:id="@+id/btn_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
             android:backgroundTint="#DF9F5E"
-            android:text="사진찍기"
-            tools:ignore="MissingConstraints" />
-    </LinearLayout>
-
+            android:text="영수증 찍기"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="-25dp"
+            tools:layout_editor_absoluteY="552dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </FrameLayout>

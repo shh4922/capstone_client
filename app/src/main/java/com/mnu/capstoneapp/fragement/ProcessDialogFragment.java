@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,7 +79,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
 
     private void getRecipeProcess() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.38:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         APIservice service = retrofit.create(APIservice.class);
@@ -93,7 +94,16 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
                 for (int i = 0; i < result.size(); i++) {
                     processDataArrayList.add(new RecipeProcessData(result.get(i).order, result.get(i).process));
                 }
-                onResume();
+                if(processDataArrayList!=null){
+                    onResume();
+                }else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("알림!")
+                            .setMessage("아직 준비중입니다ㅠㅠ")
+                            .create()
+                            .show();
+                }
+
             }
 
             @Override
@@ -123,7 +133,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
         switch (view.getId()) {
             case R.id.btn_cancle: {
                 dismiss();
-                Toast.makeText(getContext(),"눈팅했습니다 ㅎ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "눈팅했습니다 ㅎ", Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.btn_useRecipe: {
@@ -135,7 +145,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
 
     private void useItemSendToServer() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.38:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -151,15 +161,16 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
                 switch (response.body().getCode()) {
                     case "0000": {
                         dismiss();
-                        Toast.makeText(getContext(),"해당재료 사용합니다!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "해당재료 사용합니다!", Toast.LENGTH_SHORT).show();
                         break;
                     }
+
                 }
             }
 
             @Override
             public void onFailure(Call<dafaultResponce> call, Throwable t) {
-                Log.e("로그","아이탬사용 통신중 결함",t);
+                Log.e("로그", "아이탬사용 통신중 결함", t);
             }
         });
     }

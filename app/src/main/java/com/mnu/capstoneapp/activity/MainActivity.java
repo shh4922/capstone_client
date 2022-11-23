@@ -11,12 +11,10 @@ import com.mnu.capstoneapp.R;
 import com.mnu.capstoneapp.fragement.CameraFragement;
 import com.mnu.capstoneapp.fragement.RecipeFragment;
 import com.mnu.capstoneapp.fragement.RefrigeratorFragment;
-import com.mnu.capstoneapp.fragement.SettingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     RefrigeratorFragment refrigeratorFragment;
-    SettingFragment settingFragment;
     RecipeFragment recipeFragment;
     CameraFragement cameraFragement;
     NavigationBarView navigationBarView;
@@ -31,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public void init(){
         refrigeratorFragment = new RefrigeratorFragment();
         recipeFragment = new RecipeFragment();
-        settingFragment = new SettingFragment();
         cameraFragement = new CameraFragement();
         navigationBarView = findViewById(R.id.bottom_menubar);
 
@@ -49,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.recipe:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,recipeFragment).commit();
-                        return true;
-                    case R.id.setting:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,settingFragment).commit();
                         return true;
                     case R.id.camera:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,cameraFragement).commit();

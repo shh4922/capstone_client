@@ -24,13 +24,13 @@
         <entry key="app/src/main/res/layout/activity_camera.xml" value="0.13229166666666667" />
         <entry key="app/src/main/res/layout/activity_intro.xml" value="0.21856689453125" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.27313385009765623" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/fragment__text_dialog.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_camera.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_camera2_basic.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_customdialog.xml" value="0.28229166666666666" />
-        <entry key="app/src/main/res/layout/fragment_floatdialog.xml" value="0.28125" />
+        <entry key="app/src/main/res/layout/fragment_floatdialog.xml" value="0.45" />
         <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.31909027099609377" />
         <entry key="app/src/main/res/layout/fragment_recipedialog.xml" value="0.28125" />
         <entry key="app/src/main/res/layout/fragment_refrigerator.xml" value="0.33" />

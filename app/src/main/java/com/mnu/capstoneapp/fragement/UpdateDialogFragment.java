@@ -72,7 +72,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
     private void updateItem() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.30.1.38:8000")
+                .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

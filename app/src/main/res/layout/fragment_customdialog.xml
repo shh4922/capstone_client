@@ -15,6 +15,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="재료가 맞다면 저장을 눌러주세요"
+        android:fontFamily="@font/font_intro"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold" />

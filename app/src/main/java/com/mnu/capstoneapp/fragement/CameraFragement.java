@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -57,7 +58,7 @@ public class CameraFragement extends Fragment {
 
     final private static String TAG = "GILBOMI";
     Button btn_photo;
-    ImageView iv_photo;
+
     final static int TAKE_PICTURE = 1;
     String mCurrentPhotoPath;
     final static int REQUEST_TAKE_PHOTO = 1;
@@ -74,7 +75,7 @@ public class CameraFragement extends Fragment {
                              @NonNull Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-        iv_photo = view.findViewById(R.id.iv_photo);
+
         btn_photo = view.findViewById(R.id.btn_photo);
 
 
@@ -125,7 +126,7 @@ public class CameraFragement extends Fragment {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), Uri.fromFile(file));
                         sendImgKaKaO(file);
                         if (bitmap != null) {
-                            iv_photo.setImageBitmap(bitmap);
+
                         }
                     }
                     break;
@@ -289,7 +290,13 @@ public class CameraFragement extends Fragment {
         total.put("word", listMapInsert);
 
         //ㅋ;;
+        sendServer(total);
 
+
+    }
+
+    private void sendServer(Map<String, Object> total){
+        ArrayList<RunningItemList> arylist = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://172.17.220.103:8000")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -299,14 +306,20 @@ public class CameraFragement extends Fragment {
         APIservice textsend = retrofit.create(APIservice.class);
         //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         textsend.getResultTexts(total);
-
+        if(arylist==null){
+            new AlertDialog.Builder(getContext())
+                    .setTitle("알림!")
+                    .setMessage("데이터를 받아오는중... 기다려주세용")
+                    .create()
+                    .show();
+        }
         /***
          * 띄어쓰기해서 묶은 데이터 확인하는 Log
          */
         textsend.getResultTexts(total).enqueue(new Callback<TextDataResponse>() {
             @Override
             public void onResponse(Call<TextDataResponse> call, Response<TextDataResponse> response) {
-                ArrayList<RunningItemList> arylist = new ArrayList<>();
+
                 List<TextDataResponse.ItemList> result = response.body().getText_items();
 
                 for (int i = 0; i < result.size(); i++) {

@@ -8,17 +8,19 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".activity.SignupActivity">
+
     <TextView
+        android:layout_marginTop="10dp"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F1D4B6"
+        android:background="#FFFFFF"
+        android:fontFamily="@font/font_intro"
         android:gravity="center"
         android:text="Sign up"
-        android:fontFamily="@font/font_intro"
-        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/et_username"
