@@ -47,6 +47,7 @@
             android:name=".activity.MainActivity"
             android:exported="true">
 
+
         </activity>
 
         <provider

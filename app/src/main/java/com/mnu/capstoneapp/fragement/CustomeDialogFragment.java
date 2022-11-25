@@ -49,7 +49,6 @@ public class CustomeDialogFragment extends DialogFragment implements View.OnClic
 
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.rc_runningData);
         recyclerView.setHasFixedSize(true);
 

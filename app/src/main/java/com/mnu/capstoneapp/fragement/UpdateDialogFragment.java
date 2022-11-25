@@ -57,6 +57,9 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_dialog, container, false);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+
         btn_update = view.findViewById(R.id.btn_update);
         btn_update.setOnClickListener(this);
 
@@ -65,6 +68,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
         et_itemName.setText(data.getTv_itemname());
         et_itemCount.setText(data.getTv_itemcounts());
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         return view;
     }
@@ -72,7 +76,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
     private void updateItem() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

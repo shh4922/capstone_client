@@ -1,5 +1,7 @@
 package com.mnu.capstoneapp.fragement;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +56,7 @@ public class FloatDialogFragment extends DialogFragment implements View.OnClickL
         btn_save = view.findViewById(R.id.save);
         btn_add.setOnClickListener(this);
         btn_save.setOnClickListener(this);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rc_float);
         recyclerView.setHasFixedSize(true);
@@ -123,7 +126,7 @@ public class FloatDialogFragment extends DialogFragment implements View.OnClickL
     private void sendToItems(Map request){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

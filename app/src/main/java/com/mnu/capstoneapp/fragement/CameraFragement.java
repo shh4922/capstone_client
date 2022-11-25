@@ -2,6 +2,8 @@ package com.mnu.capstoneapp.fragement;
 
 import static android.app.Activity.RESULT_OK;
 
+import static java.lang.Math.abs;
+
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
@@ -226,10 +228,10 @@ public class CameraFragement extends Fragment {
         //x,y좌표를 담고있을 배열
         int[] arry1;
         int[] arry2;
-
-        //배열에서 가져온 y값을 담을 변수
-        int y1 = 0, y2 = 0;
-        int y1_, y2_;
+        //첫번째 단어 x,y좌표
+        int y1 = 0;
+        // 두번째 단어 x,y 좌표
+        int y1_;
 
         // 한 줄의 라인의 조건을 판별해줄 count
         int count = 0;
@@ -244,48 +246,54 @@ public class CameraFragement extends Fragment {
 
         for (ImgResponse.Result result : resultList) {
             tatalbox = result.boxes;
-            //단어의 (x1,y1)좌표
+            //단어의 왼쪽 위 의 (x,y)좌표
             arry1 = tatalbox.get(0);
-            //단어의 (x1,y2)좌표
-            arry2 = tatalbox.get(2);
 
-            //첫번쨰 단어는 그냥 비교할 객체가 없기에 그냥 저장하고 끝
-            if (count == 0) {
-                onelinestr += Arrays.deepToString(result.recognition_words);
-                //arry[]가 x,y좌표를 가지고있고 arry[1]은 y좌표임
-                y1 = arry1[1];
-                y2 = arry2[1];
-                count++;
+            Log.d("상품", Arrays.deepToString(result.recognition_words));
+            if (Arrays.deepToString(result.recognition_words).equals("[상품(코드)]") || Arrays.deepToString(result.recognition_words).equals("[단가]") || Arrays.deepToString(result.recognition_words).equals("[수량]") || Arrays.deepToString(result.recognition_words).equals("[금액]")) {
+                Log.e("상품", "오 같음");
+                count = 0;
+                onelinestr = "";
+                key =0;
+                listMapInsert.clear();
 
+            } else if (Arrays.deepToString(result.recognition_words).equals("[총구매액]") || Arrays.deepToString(result.recognition_words).equals("[총구매액:]") || Arrays.deepToString(result.recognition_words).equals("[내실금액]")) {
+                break;
             } else {
-                //다음 단어의 y좌표 갖고옴
-                y1_ = arry1[1];
-                y2_ = arry2[1];
-
-                //처음 단어와 현재단어의 좌표값이 특정법위에 있을시,
-                if ((y1_ >= y1 - 50 && y1_ <= y1 + 50) && (y2_ >= y2 - 50 && y2_ <= y2 + 50)) {
+                //첫번쨰 단어는 그냥 비교할 객체가 없기에 그냥 저장하고 끝
+                if (count == 0) {
                     onelinestr += Arrays.deepToString(result.recognition_words);
+                    //arry[]가 x,y좌표를 가지고있고 arry[1]은 y좌표임
+                    y1 = arry1[1];
+
                     count++;
 
                 } else {
-                    Map<Integer, Object> map = new LinkedHashMap<Integer, Object>();
-                    map.put(key, onelinestr);
-                    //request.put(key,onelinestr);
-                    listMapInsert.add(map);
-                    //<"키값","한줄의 텍스트"> 가 들어가기에 키값++, 한줄단어는 다시 null로
-                    key++;
-                    onelinestr = "";
-                    onelinestr += Arrays.deepToString(result.recognition_words);
-                    count = 0;
+                    //다음 단어의 y좌표 갖고옴
+                    y1_ = arry1[1];
+                    if (abs(y1_ - y1) >= 0 && abs(y1_ - y1) <= 10) {
+                        onelinestr += Arrays.deepToString(result.recognition_words);
+                        count++;
+                    } else {
+                        Map<Integer, Object> map = new LinkedHashMap<Integer, Object>();
+                        map.put(key, onelinestr);
+                        listMapInsert.add(map);
+                        //<"키값","한줄의 텍스트"> 가 들어가기에 키값++, 한줄단어는 다시 null로
+                        key++;
+                        onelinestr = "";
+                        onelinestr += Arrays.deepToString(result.recognition_words);
+                        count = 0;
+                    }
+                    //현재위치가 이젠 이전위치로 바껴야함.
+                    y1 = y1_;
+
                 }
-                //현재위치가 이젠 이전위치로 바껴야함.
-                y1 = y1_;
-                y2 = y2_;
             }
+
         }
 
         // 카카오에서 나온 텍스트들 json으로 묶기  ### 22.07.11
-        Log.e("로그",listMapInsert.toString());
+        Log.e("로그", listMapInsert.toString());
         total.put("user", id);
         total.put("word", listMapInsert);
 
@@ -295,10 +303,10 @@ public class CameraFragement extends Fragment {
 
     }
 
-    private void sendServer(Map<String, Object> total){
+    private void sendServer(Map<String, Object> total) {
         ArrayList<RunningItemList> arylist = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -306,7 +314,7 @@ public class CameraFragement extends Fragment {
         APIservice textsend = retrofit.create(APIservice.class);
         //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         textsend.getResultTexts(total);
-        if(arylist==null){
+        if (arylist == null) {
             new AlertDialog.Builder(getContext())
                     .setTitle("알림!")
                     .setMessage("데이터를 받아오는중... 기다려주세용")
@@ -327,8 +335,7 @@ public class CameraFragement extends Fragment {
                 }
                 //dialog 생성 및 호출
                 CustomeDialogFragment customeDialogFragment = new CustomeDialogFragment(arylist);
-                customeDialogFragment.show(getActivity().getSupportFragmentManager(),"dialog");
-
+                customeDialogFragment.show(getActivity().getSupportFragmentManager(), "dialog");
 
 
             }
