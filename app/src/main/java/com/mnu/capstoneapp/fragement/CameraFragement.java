@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -17,12 +18,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mnu.capstoneapp.Interface.APIservice;
 import com.mnu.capstoneapp.R;
@@ -57,6 +62,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //implements View.OnClickListener
 
 public class CameraFragement extends Fragment {
+
+
+    AppCompatDialog progressDialog;
 
     final private static String TAG = "GILBOMI";
     Button btn_photo;
@@ -254,7 +262,7 @@ public class CameraFragement extends Fragment {
                 Log.e("상품", "오 같음");
                 count = 0;
                 onelinestr = "";
-                key =0;
+                key = 0;
                 listMapInsert.clear();
 
             } else if (Arrays.deepToString(result.recognition_words).equals("[총구매액]") || Arrays.deepToString(result.recognition_words).equals("[총구매액:]") || Arrays.deepToString(result.recognition_words).equals("[내실금액]")) {
@@ -314,13 +322,7 @@ public class CameraFragement extends Fragment {
         APIservice textsend = retrofit.create(APIservice.class);
         //APIservice에 있는 getLoginResponse호출 후, 만들어둔 request(JSON) 를 입력
         textsend.getResultTexts(total);
-        if (arylist == null) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("알림!")
-                    .setMessage("데이터를 받아오는중... 기다려주세용")
-                    .create()
-                    .show();
-        }
+        startProgress();
         /***
          * 띄어쓰기해서 묶은 데이터 확인하는 Log
          */
@@ -345,5 +347,80 @@ public class CameraFragement extends Fragment {
                 Log.e("로그", "서버에 text데이터 전송&응답 실패", t);
             }
         });
+    }
+
+
+    public static CameraFragement getInstance() {
+        return CameraFragement.getInstance();
+    }
+
+    public void progressON(Fragment fragment, String message) {
+
+        if (fragment == null || fragment.isDetached()) {
+            return;
+        }
+
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressSET(message);
+        } else {
+
+            progressDialog = new AppCompatDialog(this.getContext());
+            progressDialog.setCancelable(false);
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            progressDialog.setContentView(R.layout.progress_loading);
+            progressDialog.show();
+
+        }
+
+
+        final ImageView img_loading_frame = (ImageView) progressDialog.findViewById(R.id.iv_frame_loading);
+        final AnimationDrawable frameAnimation = (AnimationDrawable) img_loading_frame.getBackground();
+        img_loading_frame.post(new Runnable() {
+            @Override
+            public void run() {
+                frameAnimation.start();
+            }
+        });
+
+        TextView tv_progress_message = (TextView) progressDialog.findViewById(R.id.tv_progress_message);
+        if (!TextUtils.isEmpty(message)) {
+            tv_progress_message.setText(message);
+        }
+
+
+    }
+
+    public void progressSET(String message) {
+
+        if (progressDialog == null || !progressDialog.isShowing()) {
+            return;
+        }
+
+
+        TextView tv_progress_message = (TextView) progressDialog.findViewById(R.id.tv_progress_message);
+        if (!TextUtils.isEmpty(message)) {
+            tv_progress_message.setText(message);
+        }
+
+    }
+
+    public void progressOFF() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+    private void startProgress() {
+
+        progressON(this, "데이터를 받아오는중..");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressOFF();
+            }
+        }, 6000);
+
     }
 }

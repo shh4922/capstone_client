@@ -14,6 +14,17 @@ public class RecipeProcessResponse {
         public String process;
     }
 
+    @SerializedName("code")
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public List<RecipeProcess> getProcesslist() {
         return processlist;
     }

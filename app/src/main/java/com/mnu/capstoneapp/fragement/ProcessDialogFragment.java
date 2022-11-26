@@ -102,7 +102,8 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
         service.getRecipeProcess(request).enqueue(new Callback<RecipeProcessResponse>() {
             @Override
             public void onResponse(Call<RecipeProcessResponse> call, Response<RecipeProcessResponse> response) {
-                if (response.body().getProcesslist() == null) {
+                if (response.body().getCode().equals("0001")) {
+                    Log.e("로그","진입완료");
                     new AlertDialog.Builder(getContext())
                             .setTitle("알림!")
                             .setMessage("아직 준비중입니다ㅠㅠ")
@@ -111,6 +112,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
                     dismiss();
                     return;
                 } else {
+                    Log.e("로그",response.body().getCode().toString());
                     List<RecipeProcessResponse.NeedItem> needItems = response.body().getNeeditems();
 
                     SpannableStringBuilder sb = new SpannableStringBuilder();
@@ -120,7 +122,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
                         if (needItems.get(i).have.equals("1")) {
                             Log.e("로그", needItems.get(i).have.toString());
                             Log.e("로그", "재료가있음");
-                            Log.e("로그",needItems.get(i).have.getClass().getName());
+                            Log.e("로그", needItems.get(i).have.getClass().getName());
 
                             String text = needItems.get(i).itemname;
                             int start = text.indexOf(text);
@@ -148,7 +150,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
                         sb.append(and);
                     }
 
-                    needItem.setText(sb,TextView.BufferType.SPANNABLE);
+                    needItem.setText(sb, TextView.BufferType.SPANNABLE);
                     List<RecipeProcessResponse.RecipeProcess> result = response.body().getProcesslist();
                     for (int i = 0; i < result.size(); i++) {
                         processDataArrayList.add(new RecipeProcessData(result.get(i).order, result.get(i).process));
@@ -159,6 +161,7 @@ public class ProcessDialogFragment extends DialogFragment implements View.OnClic
 
             @Override
             public void onFailure(Call<RecipeProcessResponse> call, Throwable t) {
+                Log.e("로그", "레시피과정 불러오기 실ㅎ패");
             }
         });
     }

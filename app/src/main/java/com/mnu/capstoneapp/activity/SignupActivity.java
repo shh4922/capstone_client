@@ -63,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
 
         //서버로 전송하기위한 retrofit 설정
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.17.220.103:8000")
+                .baseUrl("http://172.30.1.38:8000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         //통신을 위한 APIservice 생성
