@@ -34,3 +34,10 @@ UI디자인, 안드로이드 애플리케이션 내 기능구현, 서버구축
 영수증 이미지를 사용한 데이터 처리
 
 
+![KakaoTalk_Photo_2022-12-01-17-08-59 001](https://user-images.githubusercontent.com/83321146/204999855-8f2c5553-e91b-4518-b353-326ac4379eeb.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 002](https://user-images.githubusercontent.com/83321146/204999864-fa5989f5-2d57-4453-bcbf-74c772cce76e.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 003](https://user-images.githubusercontent.com/83321146/204999870-3303980a-4042-4af6-a9fb-f2718de0cc72.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 004](https://user-images.githubusercontent.com/83321146/204999876-62383ebc-1bae-46df-a500-4c7684f75930.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 005](https://user-images.githubusercontent.com/83321146/204999884-87f95fba-ba97-41c2-828f-40e0350d1f31.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 006](https://user-images.githubusercontent.com/83321146/204999889-2a47120d-c54e-4ec1-9c3c-346373ad4bf6.png)
+![KakaoTalk_Photo_2022-12-01-17-08-59 007](https://user-images.githubusercontent.com/83321146/204999891-297b19a9-d633-4ef2-90fe-4934b313fdba.png)
