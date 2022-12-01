@@ -31,10 +31,10 @@ UI디자인, 안드로이드 애플리케이션 내 기능구현, 서버구축
 <img src = "https://user-images.githubusercontent.com/83321146/204999870-3303980a-4042-4af6-a9fb-f2718de0cc72.png" width="15%" height="20%">
 <img src = "https://user-images.githubusercontent.com/83321146/204999884-87f95fba-ba97-41c2-828f-40e0350d1f31.png" width="15%" height="20%">
 <img src = "https://user-images.githubusercontent.com/83321146/204999876-62383ebc-1bae-46df-a500-4c7684f75930.png" width="15%" height="20%">
-
+</p>
 아이탬 직접추가
 <img src = "https://user-images.githubusercontent.com/83321146/204999891-297b19a9-d633-4ef2-90fe-4934b313fdba.png" width="15%" height="20%">
-</p>
+
 영수증을 이용한 재료 추가
 <img src ="https://user-images.githubusercontent.com/83321146/205002847-8b59ac76-8ee5-4449-a475-9de8feb5b1ca.mp4"
 width="30%" height="20%">
